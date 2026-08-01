@@ -1,0 +1,115 @@
+{
+ "projections": {
+  "as_documented": {
+   "name": "as_documented",
+   "nodes": 44968,
+   "rels": 233845
+  },
+  "canonical": {
+   "name": "canonical",
+   "nodes": 44968,
+   "rels": 233845
+  }
+ },
+ "retired_relationship_counts": {},
+ "edges_removed": 0,
+ "edges_removed_pct": 0.0,
+ "nodes_compared": 44968,
+ "role_changes": 0,
+ "role_change_pct": 0.0,
+ "mean_influence_delta": 0.0,
+ "max_influence_delta": 0.0,
+ "top50_ranking_churn": 0,
+ "worst_affected": [
+  {
+   "uid": "Species:10116",
+   "delta": 0.0,
+   "role_as_documented": "Locally Influential",
+   "role_canonical": "Locally Influential"
+  },
+  {
+   "uid": "Species:9606",
+   "delta": 0.0,
+   "role_as_documented": "Locally Influential",
+   "role_canonical": "Locally Influential"
+  },
+  {
+   "uid": "Tissue:UBERON:0001621",
+   "delta": 0.0,
+   "role_as_documented": "Structural Bottleneck",
+   "role_canonical": "Structural Bottleneck"
+  },
+  {
+   "uid": "Species:7955",
+   "delta": 0.0,
+   "role_as_documented": "Peripheral Node",
+   "role_canonical": "Peripheral Node"
+  },
+  {
+   "uid": "Tissue:UBERON:0010414",
+   "delta": 0.0,
+   "role_as_documented": "Structural Bottleneck",
+   "role_canonical": "Structural Bottleneck"
+  },
+  {
+   "uid": "Tissue:UBERON:0007610",
+   "delta": 0.0,
+   "role_as_documented": "Structural Bottleneck",
+   "role_canonical": "Structural Bottleneck"
+  },
+  {
+   "uid": "Tissue:UBERON:0002190",
+   "delta": 0.0,
+   "role_as_documented": "Structural Bottleneck",
+   "role_canonical": "Structural Bottleneck"
+  },
+  {
+   "uid": "Tissue:UBERON:0001255",
+   "delta": 0.0,
+   "role_as_documented": "Peripheral Node",
+   "role_canonical": "Peripheral Node"
+  },
+  {
+   "uid": "Tissue:UBERON:0009835",
+   "delta": 0.0,
+   "role_as_documented": "Structural Bottleneck",
+   "role_canonical": "Structural Bottleneck"
+  },
+  {
+   "uid": "Tissue:UBERON:0002107",
+   "delta": 0.0,
+   "role_as_documented": "Peripheral Node",
+   "role_canonical": "Peripheral Node"
+  },
+  {
+   "uid": "Tissue:UBERON:0000955",
+   "delta": 0.0,
+   "role_as_documented": "Structural Bottleneck",
+   "role_canonical": "Structural Bottleneck"
+  },
+  {
+   "uid": "Tissue:UBERON:0000948",
+   "delta": 0.0,
+   "role_as_documented": "Peripheral Node",
+   "role_canonical": "Peripheral Node"
+  },
+  {
+   "uid": "Tissue:UBERON:0000945",
+   "delta": 0.0,
+   "role_as_documented": "Structural Bottleneck",
+   "role_canonical": "Structural Bottleneck"
+  },
+  {
+   "uid": "Tissue:UBERON:0001264",
+   "delta": 0.0,
+   "role_as_documented": "Peripheral Node",
+   "role_canonical": "Peripheral Node"
+  },
+  {
+   "uid": "Tissue:UBERON:0006920",
+   "delta": 0.0,
+   "role_as_documented": "Structural Bottleneck",
+   "role_canonical": "Structural Bottleneck"
+  }
+ ]
+}

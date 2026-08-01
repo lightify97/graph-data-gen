@@ -1,0 +1,38 @@
+{
+ "G-01": {
+  "encodes_edges": 2274,
+  "cognate_pairs_tested": 150,
+  "cognate_pairs_with_alternative_path": 85,
+  "pct_cognate_with_alternative": 56.7,
+  "mean_alternative_path_length": 3.44,
+  "mean_proteins_reached_per_gene_within_3_hops": 14.1,
+  "total_proteins": 5000,
+  "reachability_promiscuity_pct": 0.3,
+  "components_with_encodes": 263,
+  "components_without_encodes": 263,
+  "verdict": "NOT CONFIRMED \u2014 only 56.7% of cognate pairs have an alternative path, so ENCODES is usually the unique connector; its absence would fail loudly rather than silently."
+ },
+ "G-10": {
+  "hypotheses": 120,
+  "with_typed_membership": 120,
+  "labels_reachable_without_membership": [
+   "BiologicalState",
+   "ConfidenceScore",
+   "Disease",
+   "HypothesisVersion",
+   "LifecycleState",
+   "Protein",
+   "Publication",
+   "ReasoningChain",
+   "SkygenicHypothesis"
+  ],
+  "biological_labels_reachable_without_membership": [
+   "Disease",
+   "Protein"
+  ],
+  "doc_supplies_targets": true,
+  "doc_supplies_outcomes": true,
+  "mechanism_labels_reachable": [],
+  "verdict": "OVERSTATED IN v1 OF THE GAP ANALYSIS \u2014 the doc does supply subgraph anchors: PRIORITIZES_THERAPEUTIC_TARGET gives PRIM_H05.target_nodes and EXPLAINS_CLINICAL_OUTCOME gives outcome_nodes. What is missing is the mechanism body between them: no Gene, Pathway, Variant or BiologicalProcess is reachable from a hypothesis, so PRIM_T09's 'targets + expected_edges + 1-hop' can be anchored but not filled."
+ }
+}

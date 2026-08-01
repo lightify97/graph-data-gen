@@ -1,0 +1,1739 @@
+{
+ "capabilities": {
+  "topology": {
+   "status": "PASS",
+   "description": "Graph has enough nodes and directed edges to traverse",
+   "detail": "53,375 nodes / 233,845 rels"
+  },
+  "node_metadata": {
+   "status": "PASS",
+   "description": "PRIM_N08 six mandatory fields present on every node",
+   "detail": "0 nodes missing N08 fields"
+  },
+  "provenance_fields": {
+   "status": "PASS",
+   "description": "source / is_synthetic / temporal validity on all nodes",
+   "detail": "0 nodes missing provenance/temporal fields"
+  },
+  "edge_scores": {
+   "status": "PASS",
+   "description": "PRIM_E01/E02/E04 inputs on edges",
+   "detail": "233,845 scored edges"
+  },
+  "edge_tiers": {
+   "status": "PASS",
+   "description": "SCAN-01 quality tiers span more than one band",
+   "detail": "4 distinct tiers over 233,845 edges"
+  },
+  "edge_conflict": {
+   "status": "PASS",
+   "description": "PRIM_E05/E06/E07 need pos/neg observation counts",
+   "detail": "131,019 edges with contradiction"
+  },
+  "edge_direction": {
+   "status": "PASS",
+   "description": "SCAN-03 needs signed direction on edges",
+   "detail": "70,157 directional edges"
+  },
+  "edge_provenance": {
+   "status": "PASS",
+   "description": "PRIM_E15 provenance chain fields",
+   "detail": "233,845 edges with full provenance"
+  },
+  "edge_modality": {
+   "status": "PASS",
+   "description": "PRIM_E16/E17 modality coverage and concordance",
+   "detail": "10 modalities over 233,845 edges"
+  },
+  "edge_recency": {
+   "status": "PASS",
+   "description": "PRIM_E19 needs a spread of publication years",
+   "detail": "21 distinct years (2005-2025)"
+  },
+  "datasets": {
+   "status": "PASS",
+   "description": "PRIM_E13/T17 need Dataset nodes",
+   "detail": "300 datasets"
+  },
+  "cohorts": {
+   "status": "PASS",
+   "description": "PRIM_N10 needs paired disease/control cohorts",
+   "detail": "200 cohorts, 2 states"
+  },
+  "assertions": {
+   "status": "PASS",
+   "description": "PRIM_S16/I04/H03 need Assertion nodes with promotion decisions",
+   "detail": "6000 assertions, 3 decision classes"
+  },
+  "evidence_modality": {
+   "status": "PASS",
+   "description": "SCAN-10 cross-modality concordance",
+   "detail": "10 modalities / 5000 evidence"
+  },
+  "evidence_stage": {
+   "status": "PASS",
+   "description": "PRIM_E21 stage-stratified effect (SCAN-33)",
+   "detail": "4 stages / 3977 evidence"
+  },
+  "evidence_batch": {
+   "status": "PASS",
+   "description": "PRIM_E22 batch/platform/lab variance (SCAN-35)",
+   "detail": "5000 evidence with batch metadata"
+  },
+  "clinical_evidence": {
+   "status": "PASS",
+   "description": "CLIN_02 distinguishes clinical from preclinical",
+   "detail": "999 clinical evidence records"
+  },
+  "publications": {
+   "status": "PASS",
+   "description": "SCAN-11 provenance chain terminates in Publication",
+   "detail": "4000 pubs, 8 source types"
+  },
+  "variant_stats": {
+   "status": "PASS",
+   "description": "PRIM_G01 mandatory GeneticVariant attributes",
+   "detail": "4,434 variants with full G01 attributes"
+  },
+  "variant_locus": {
+   "status": "PASS",
+   "description": "PRIM_G01 MAPS_TO_LOCUS edge to Gene",
+   "detail": "2,898 maps_to_locus edges"
+  },
+  "qtl": {
+   "status": "PASS",
+   "description": "SCAN-18 needs eQTL/pQTL/mQTL edges",
+   "detail": "8,694 QTL edges, 3 kinds"
+  },
+  "orthologs": {
+   "status": "PASS",
+   "description": "PRIM_T15/R22 cross-species conservation",
+   "detail": "6 species, 11,937 conservation edges"
+  },
+  "hypotheses": {
+   "status": "PASS",
+   "description": "PRIM_H05 hypothesis context fields",
+   "detail": "120 hypotheses, 8 domains"
+  },
+  "hypothesis_subgraph": {
+   "status": "PASS",
+   "description": "PRIM_T09 needs typed hypothesis membership (gap G-10)",
+   "detail": "5,793 membership edges"
+  },
+  "version_history": {
+   "status": "PASS",
+   "description": "PRIM_R08/H02 need >=2 ordered versions per hypothesis",
+   "detail": "120 hypotheses with history (avg 7.6 versions)"
+  },
+  "mc_trajectory": {
+   "status": "PASS",
+   "description": "SCAN-30/31 need MC deltas including a converged run",
+   "detail": "796 deltas, 262 below convergence threshold"
+  },
+  "confidence_components": {
+   "status": "PASS",
+   "description": "PRIM_R06 C/dS/R/P/K components",
+   "detail": "120 full MC component sets"
+  },
+  "lifecycle": {
+   "status": "PASS",
+   "description": "SCAN-20 lifecycle states",
+   "detail": "5 distinct states"
+  },
+  "reasoning_chains": {
+   "status": "PASS",
+   "description": "SCAN-21 explainability",
+   "detail": "120 reasoning chains"
+  },
+  "biological_state": {
+   "status": "PASS",
+   "description": "PRIM_S07/T16 versioned state + snapshot hash",
+   "detail": "200 states"
+  },
+  "scan_results": {
+   "status": "PASS",
+   "description": "PRIM_S10 persisted results with version triplet",
+   "detail": "2,000 scan results"
+  },
+  "audit_log": {
+   "status": "PASS",
+   "description": "PRIM_S13 append-only audit events",
+   "detail": "1,500 events, 11 types"
+  },
+  "tissues": {
+   "status": "PASS",
+   "description": "SCAN-08 interaction context",
+   "detail": "63 tissues"
+  },
+  "cell_types": {
+   "status": "PASS",
+   "description": "ONC_05/IMM_01 need CellType (gap G-07)",
+   "detail": "10 cell types"
+  },
+  "ontology_dag": {
+   "status": "PASS",
+   "description": "SCAN-25/27 semantic distance needs a term hierarchy",
+   "detail": "2,608 parent-child edges"
+  },
+  "drug_directional": {
+   "status": "PASS",
+   "description": "SCAN-03/29 need signed drug-target edges",
+   "detail": "2,536 directional drug edges"
+  },
+  "off_target": {
+   "status": "PASS",
+   "description": "SCAN-28 off-target risk",
+   "detail": "1,992 off-target edges"
+  },
+  "compound_fingerprints": {
+   "status": "PASS",
+   "description": "SIM_03 Tanimoto on Morgan fingerprints",
+   "detail": "1,500 compounds with fingerprints"
+  },
+  "gene_protein_link": {
+   "status": "PASS",
+   "description": "Gap G-01: Gene->Protein must connect the two halves",
+   "detail": "2,608 ENCODES edges"
+  },
+  "agriculture_data": {
+   "status": "UNSUPPORTED",
+   "description": "Plant entity types for the AG-SCAN family",
+   "detail": "Agriculture is out of scope for this build (ADR-002). source_registry.yaml excludes CROP_SPECIES, PLANT_GENE, PLANT_DISEASE, PLANT_PATHWAY, AGROCHEMICAL and QTL_PLANT. The EDIT_*, BREED_*, EPI_* and MICRO_* primitive families exist in the workbook but have no entity types to operate on."
+  },
+  "embeddings": {
+   "status": "UNSUPPORTED",
+   "description": "PRIM_V01-V16 vector layer",
+   "detail": "No vector store. PRIM_V01-V16 (generate/store/search embeddings, cosine similarity, novelty baselines) cannot run against a property graph alone. Every semantic scan depends on this. Requires a vector index decision \u2014 Neo4j 2026 native vector index, or an external store (Qdrant is already running on this machine)."
+  }
+ },
+ "scans": {
+  "NEURO-SCAN-01": {
+   "family": "Domain \u2014 Neurology",
+   "scope": "Hypothesis (subgraph-wide)",
+   "primitives": [
+    "NEURO_01",
+    "NEURO_02",
+    "T12"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "tissues": "PASS",
+    "edge_direction": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "NEURO-SCAN-02": {
+   "family": "Domain \u2014 Neurology",
+   "scope": "Hypothesis (circuit-wide)",
+   "primitives": [
+    "NEURO_03",
+    "IMM_01",
+    "T07"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "tissues": "PASS",
+    "cell_types": "PASS",
+    "edge_direction": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "NEURO-SCAN-03": {
+   "family": "Domain \u2014 Neurology",
+   "scope": "Node",
+   "primitives": [
+    "NEURO_04",
+    "R09"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "tissues": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "NEURO-SCAN-04": {
+   "family": "Domain \u2014 Neurology",
+   "scope": "Hypothesis",
+   "primitives": [
+    "NEURO_05",
+    "S03",
+    "TEMP_02"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "tissues": "PASS",
+    "version_history": "PASS",
+    "edge_recency": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "CARDIO-SCAN-01": {
+   "family": "Domain \u2014 Cardio-Metabolic",
+   "scope": "Node",
+   "primitives": [],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "GENE-SCAN-01": {
+   "family": "Domain \u2014 Gene & Cell Therapy",
+   "scope": "Node",
+   "primitives": [
+    "GENE_01",
+    "GENE_02",
+    "GENE_05"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "clinical_evidence": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "GENE-SCAN-02": {
+   "family": "Domain \u2014 Gene & Cell Therapy",
+   "scope": "Node",
+   "primitives": [
+    "GENE_03",
+    "IMM_04",
+    "ONC_05"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "clinical_evidence": "PASS",
+    "cell_types": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "RARE-SCAN-01": {
+   "family": "Domain \u2014 Rare Disease",
+   "scope": "Node",
+   "primitives": [
+    "RARE_01",
+    "T12",
+    "T13"
+   ],
+   "capabilities": {
+    "variant_stats": "PASS",
+    "cohorts": "PASS",
+    "topology": "PASS",
+    "edge_direction": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "RARE-SCAN-02": {
+   "family": "Domain \u2014 Rare Disease",
+   "scope": "Node",
+   "primitives": [
+    "RARE_02",
+    "RARE_04",
+    "R10"
+   ],
+   "capabilities": {
+    "variant_stats": "PASS",
+    "cohorts": "PASS",
+    "topology": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "INF-D-SCAN-01": {
+   "family": "Domain \u2014 Infectious Disease",
+   "scope": "Node",
+   "primitives": [
+    "INF_02",
+    "INF_03",
+    "T11"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "orthologs": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "INF-D-SCAN-02": {
+   "family": "Domain \u2014 Infectious Disease",
+   "scope": "Node -> Network",
+   "primitives": [],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "AGE-SCAN-01": {
+   "family": "Domain \u2014 Aging",
+   "scope": "Node",
+   "primitives": [
+    "AGE_01",
+    "AGE_03",
+    "T13"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "tissues": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SRL-SCAN-01": {
+   "family": "Infrastructure & Governance",
+   "scope": "Edge -> Hypothesis",
+   "primitives": [
+    "I04",
+    "I05",
+    "E02",
+    "E15"
+   ],
+   "capabilities": {
+    "assertions": "PASS",
+    "edge_scores": "PASS",
+    "edge_provenance": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SRL-SCAN-02": {
+   "family": "Infrastructure & Governance",
+   "scope": "Edge -> Hypothesis",
+   "primitives": [
+    "I05",
+    "E02",
+    "E14"
+   ],
+   "capabilities": {
+    "assertions": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "INF-SCAN-01": {
+   "family": "Infrastructure & Governance",
+   "scope": "Edge",
+   "primitives": [
+    "TEMP_01",
+    "TEMP_02",
+    "E18"
+   ],
+   "capabilities": {
+    "version_history": "PASS",
+    "edge_recency": "PASS",
+    "edge_direction": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "INF-SCAN-02": {
+   "family": "Infrastructure & Governance",
+   "scope": "Edge",
+   "primitives": [
+    "SEM_03",
+    "E06",
+    "E15"
+   ],
+   "capabilities": {
+    "edge_conflict": "PASS",
+    "edge_provenance": "PASS",
+    "assertions": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "INF-SCAN-03": {
+   "family": "Infrastructure & Governance",
+   "scope": "Node",
+   "primitives": [
+    "N05",
+    "V07",
+    "TEMP_01"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "embeddings": "UNSUPPORTED",
+    "version_history": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "INF-SCAN-04": {
+   "family": "Infrastructure & Governance",
+   "scope": "Hypothesis",
+   "primitives": [
+    "V01",
+    "V05",
+    "P01"
+   ],
+   "capabilities": {
+    "embeddings": "UNSUPPORTED"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "NET-SCAN-01": {
+   "family": "Network",
+   "scope": "Edge -> Network",
+   "primitives": [],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "NET-SCAN-02": {
+   "family": "Network",
+   "scope": "Network",
+   "primitives": [],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "NET-SCAN-03": {
+   "family": "Network",
+   "scope": "Node -> Network",
+   "primitives": [],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "NET-SCAN-04": {
+   "family": "Network",
+   "scope": "Network",
+   "primitives": [],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "NET-SCAN-05": {
+   "family": "Network",
+   "scope": "Edge -> Network",
+   "primitives": [],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "NET-SCAN-06": {
+   "family": "Network",
+   "scope": "Node -> Network",
+   "primitives": [],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "NET-SCAN-07": {
+   "family": "Network",
+   "scope": "Node -> Network",
+   "primitives": [],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-01": {
+   "family": "Core",
+   "scope": "Edge",
+   "primitives": [
+    "E01",
+    "E02",
+    "E03",
+    "E04",
+    "E11",
+    "E14"
+   ],
+   "capabilities": {
+    "edge_provenance": "PASS",
+    "edge_recency": "PASS",
+    "edge_scores": "PASS",
+    "datasets": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-02": {
+   "family": "Core",
+   "scope": "Node",
+   "primitives": [
+    "N01",
+    "N02",
+    "N03",
+    "N05"
+   ],
+   "capabilities": {
+    "topology": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-03": {
+   "family": "Core",
+   "scope": "Edge",
+   "primitives": [
+    "E05",
+    "E06",
+    "E14"
+   ],
+   "capabilities": {
+    "edge_conflict": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-04": {
+   "family": "Core",
+   "scope": "Edge",
+   "primitives": [
+    "E08"
+   ],
+   "capabilities": {
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-05": {
+   "family": "Core",
+   "scope": "Node",
+   "primitives": [
+    "T06",
+    "R07"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-06": {
+   "family": "Core",
+   "scope": "Edge",
+   "primitives": [
+    "E08",
+    "E11",
+    "E17",
+    "E19"
+   ],
+   "capabilities": {
+    "edge_scores": "PASS",
+    "edge_provenance": "PASS",
+    "datasets": "PASS",
+    "edge_modality": "PASS",
+    "edge_recency": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-07": {
+   "family": "Core",
+   "scope": "Hypothesis (subgraph-wide)",
+   "primitives": [
+    "T05",
+    "R15",
+    "R07"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-08": {
+   "family": "Core",
+   "scope": "Edge",
+   "primitives": [
+    "E16",
+    "E17"
+   ],
+   "capabilities": {
+    "edge_modality": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-09": {
+   "family": "Core",
+   "scope": "Edge (perturbation/GxE) and Hypothesis (mechanism confidence, decomposed separately per Master Law 1)",
+   "primitives": [
+    "T02",
+    "T03",
+    "R15",
+    "R06",
+    "R20",
+    "T14"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_scores": "PASS",
+    "confidence_components": "PASS",
+    "cohorts": "PASS",
+    "variant_stats": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-10": {
+   "family": "Core",
+   "scope": "Edge",
+   "primitives": [
+    "E16",
+    "E17",
+    "E11"
+   ],
+   "capabilities": {
+    "edge_modality": "PASS",
+    "edge_provenance": "PASS",
+    "datasets": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-11": {
+   "family": "Core",
+   "scope": "Edge",
+   "primitives": [
+    "E15",
+    "I06"
+   ],
+   "capabilities": {
+    "edge_provenance": "PASS",
+    "assertions": "PASS",
+    "edge_conflict": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-12": {
+   "family": "Core",
+   "scope": "Edge",
+   "primitives": [
+    "T15",
+    "R22"
+   ],
+   "capabilities": {
+    "orthologs": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-13": {
+   "family": "Core",
+   "scope": "Hypothesis (pathway-wide)",
+   "primitives": [
+    "R19",
+    "G01",
+    "G04"
+   ],
+   "capabilities": {
+    "variant_stats": "PASS",
+    "qtl": "PASS",
+    "variant_locus": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-14": {
+   "family": "Core",
+   "scope": "Node",
+   "primitives": [
+    "R18",
+    "T10",
+    "S20H"
+   ],
+   "capabilities": {
+    "topology": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-15": {
+   "family": "Core",
+   "scope": "Node",
+   "primitives": [
+    "R19",
+    "R21",
+    "R15"
+   ],
+   "capabilities": {
+    "variant_stats": "PASS",
+    "qtl": "PASS",
+    "topology": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-16": {
+   "family": "Core",
+   "scope": "Edge",
+   "primitives": [
+    "R20",
+    "G05"
+   ],
+   "capabilities": {
+    "cohorts": "PASS",
+    "variant_stats": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-17": {
+   "family": "Core",
+   "scope": "Node",
+   "primitives": [
+    "R10",
+    "R15",
+    "N10"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_scores": "PASS",
+    "cohorts": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-18": {
+   "family": "Core",
+   "scope": "Node & Edge",
+   "primitives": [
+    "G03",
+    "R21",
+    "T02",
+    "N05"
+   ],
+   "capabilities": {
+    "qtl": "PASS",
+    "topology": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-19": {
+   "family": "Core",
+   "scope": "Network",
+   "primitives": [
+    "R11"
+   ],
+   "capabilities": {
+    "embeddings": "UNSUPPORTED"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "SCAN-20": {
+   "family": "Core",
+   "scope": "Hypothesis",
+   "primitives": [
+    "H05"
+   ],
+   "capabilities": {
+    "hypotheses": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-21": {
+   "family": "Core",
+   "scope": "Hypothesis",
+   "primitives": [
+    "R06"
+   ],
+   "capabilities": {
+    "confidence_components": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-22": {
+   "family": "Core",
+   "scope": "Network",
+   "primitives": [
+    "R14",
+    "V04",
+    "R11"
+   ],
+   "capabilities": {
+    "embeddings": "UNSUPPORTED"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "SCAN-23": {
+   "family": "Core",
+   "scope": "Network",
+   "primitives": [
+    "R13",
+    "N06",
+    "R02"
+   ],
+   "capabilities": {
+    "edge_scores": "PASS",
+    "embeddings": "UNSUPPORTED"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "SCAN-24": {
+   "family": "Core",
+   "scope": "Node",
+   "primitives": [
+    "R09",
+    "R06",
+    "N05",
+    "R04",
+    "N07",
+    "T14"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "confidence_components": "PASS",
+    "embeddings": "UNSUPPORTED",
+    "node_metadata": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "SCAN-25": {
+   "family": "Core",
+   "scope": "Edge",
+   "primitives": [
+    "T10",
+    "V05",
+    "H02"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "embeddings": "UNSUPPORTED",
+    "version_history": "PASS",
+    "mc_trajectory": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "SCAN-26": {
+   "family": "Core",
+   "scope": "Hypothesis (decomposes to node/edge)",
+   "primitives": [
+    "N10",
+    "E11",
+    "T14",
+    "N05",
+    "E07"
+   ],
+   "capabilities": {
+    "cohorts": "PASS",
+    "topology": "PASS",
+    "edge_provenance": "PASS",
+    "datasets": "PASS",
+    "edge_conflict": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-27": {
+   "family": "Core",
+   "scope": "Hypothesis",
+   "primitives": [
+    "CLIN_01",
+    "V05",
+    "SIM_01"
+   ],
+   "capabilities": {
+    "ontology_dag": "PASS",
+    "embeddings": "UNSUPPORTED",
+    "topology": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "SCAN-28": {
+   "family": "Core",
+   "scope": "Node",
+   "primitives": [
+    "CLIN_03",
+    "T12",
+    "T13"
+   ],
+   "capabilities": {
+    "off_target": "PASS",
+    "topology": "PASS",
+    "edge_direction": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-29": {
+   "family": "Core",
+   "scope": "Edge",
+   "primitives": [
+    "CLIN_02",
+    "CLIN_04",
+    "E11",
+    "R22"
+   ],
+   "capabilities": {
+    "clinical_evidence": "PASS",
+    "orthologs": "PASS",
+    "edge_provenance": "PASS",
+    "datasets": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-30": {
+   "family": "Core",
+   "scope": "Hypothesis",
+   "primitives": [
+    "H02"
+   ],
+   "capabilities": {
+    "version_history": "PASS",
+    "mc_trajectory": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-31": {
+   "family": "Core",
+   "scope": "Hypothesis -> Network",
+   "primitives": [
+    "S11",
+    "P15"
+   ],
+   "capabilities": {
+    "mc_trajectory": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-32": {
+   "family": "Core",
+   "scope": "Edge",
+   "primitives": [
+    "E20"
+   ],
+   "capabilities": {
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-33": {
+   "family": "Core",
+   "scope": "Edge",
+   "primitives": [
+    "E21"
+   ],
+   "capabilities": {
+    "evidence_stage": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-34": {
+   "family": "Core",
+   "scope": "Hypothesis (4-axis composite)",
+   "primitives": [
+    "READ"
+   ],
+   "capabilities": {
+    "scan_results": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SCAN-35": {
+   "family": "Core",
+   "scope": "Edge (+ per-dataset)",
+   "primitives": [
+    "E22"
+   ],
+   "capabilities": {
+    "evidence_batch": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "ONC-SCAN-01": {
+   "family": "Domain \u2014 Oncology",
+   "scope": "Edge",
+   "primitives": [
+    "ONC_05",
+    "IMM_01",
+    "IMM_04"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "cell_types": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "ONC-SCAN-02": {
+   "family": "Domain \u2014 Oncology",
+   "scope": "Node",
+   "primitives": [
+    "ONC_02",
+    "ONC_06",
+    "TEMP_02"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "cell_types": "PASS",
+    "edge_recency": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "ONC-SCAN-03": {
+   "family": "Domain \u2014 Oncology",
+   "scope": "Node",
+   "primitives": [
+    "R10",
+    "ONC_01",
+    "ONC_04"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_scores": "PASS",
+    "cell_types": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "IMM-SCAN-01": {
+   "family": "Domain \u2014 Immunology",
+   "scope": "Edge",
+   "primitives": [
+    "IMM_03",
+    "IMM_06",
+    "R09",
+    "E16"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "cell_types": "PASS",
+    "edge_modality": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "IMM-SCAN-02": {
+   "family": "Domain \u2014 Immunology",
+   "scope": "Edge",
+   "primitives": [
+    "IMM_05",
+    "R19"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "cell_types": "PASS",
+    "variant_stats": "PASS",
+    "qtl": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "IMM-SCAN-03": {
+   "family": "Domain \u2014 Immunology",
+   "scope": "Hypothesis",
+   "primitives": [
+    "IMM_02",
+    "T07",
+    "T12",
+    "N02"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "cell_types": "PASS",
+    "edge_direction": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SEM-SCAN-01": {
+   "family": "Semantic",
+   "scope": "Hypothesis (subgraph-wide)",
+   "primitives": [
+    "SIM_01",
+    "SIM_04",
+    "SIM_05",
+    "SEM_01"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "embeddings": "UNSUPPORTED"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "SEM-SCAN-02": {
+   "family": "Semantic",
+   "scope": "Node",
+   "primitives": [
+    "SIM_02",
+    "V05",
+    "SEM_02"
+   ],
+   "capabilities": {
+    "drug_directional": "PASS",
+    "embeddings": "UNSUPPORTED"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "SEM-SCAN-03": {
+   "family": "Semantic",
+   "scope": "Node",
+   "primitives": [
+    "SIM_01",
+    "V05",
+    "SEM_01"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "embeddings": "UNSUPPORTED"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "SEM-SCAN-04": {
+   "family": "Semantic",
+   "scope": "Hypothesis (subgraph-wide)",
+   "primitives": [
+    "SIM_04",
+    "SIM_06",
+    "SEM_02",
+    "T15"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "embeddings": "UNSUPPORTED",
+    "orthologs": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "SEM-SCAN-05": {
+   "family": "Semantic",
+   "scope": "Node",
+   "primitives": [
+    "SIM_07",
+    "SIM_08",
+    "CLIN_03"
+   ],
+   "capabilities": {
+    "embeddings": "UNSUPPORTED",
+    "topology": "PASS",
+    "off_target": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "SEM-SCAN-06": {
+   "family": "Semantic",
+   "scope": "Node",
+   "primitives": [
+    "SIM_05",
+    "SEM_01",
+    "N05"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "embeddings": "UNSUPPORTED"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "SEM-SCAN-07": {
+   "family": "Semantic",
+   "scope": "Hypothesis",
+   "primitives": [
+    "SIM_07",
+    "R19",
+    "SEM_02"
+   ],
+   "capabilities": {
+    "embeddings": "UNSUPPORTED",
+    "variant_stats": "PASS",
+    "qtl": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "SEM-SCAN-08": {
+   "family": "Semantic",
+   "scope": "Node",
+   "primitives": [
+    "SIM_08",
+    "R10",
+    "E14"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SEM-SCAN-09": {
+   "family": "Semantic",
+   "scope": "Edge",
+   "primitives": [
+    "SEM_03",
+    "E17",
+    "E06"
+   ],
+   "capabilities": {
+    "edge_conflict": "PASS",
+    "edge_modality": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SEM-SCAN-10": {
+   "family": "Semantic",
+   "scope": "Edge",
+   "primitives": [
+    "SEM_03",
+    "E16",
+    "I06"
+   ],
+   "capabilities": {
+    "edge_conflict": "PASS",
+    "edge_modality": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SEM-SCAN-11": {
+   "family": "Semantic",
+   "scope": "Edge (entity pair)",
+   "primitives": [
+    "SEM_07",
+    "ONC_03"
+   ],
+   "capabilities": {
+    "edge_scores": "PASS",
+    "topology": "PASS",
+    "cell_types": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SEM-SCAN-12": {
+   "family": "Semantic",
+   "scope": "Hypothesis",
+   "primitives": [
+    "SEM_04",
+    "SEM_06",
+    "E07",
+    "N06",
+    "T06"
+   ],
+   "capabilities": {
+    "hypotheses": "PASS",
+    "edge_conflict": "PASS",
+    "edge_scores": "PASS",
+    "topology": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SEM-SCAN-13": {
+   "family": "Semantic",
+   "scope": "Hypothesis",
+   "primitives": [
+    "SEM_05",
+    "TEMP_02",
+    "TEMP_03"
+   ],
+   "capabilities": {
+    "embeddings": "UNSUPPORTED",
+    "edge_recency": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "SEM-SCAN-14": {
+   "family": "Semantic",
+   "scope": "Network",
+   "primitives": [
+    "P16",
+    "SEM_08",
+    "T06",
+    "V04"
+   ],
+   "capabilities": {
+    "embeddings": "UNSUPPORTED",
+    "topology": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "SEM-SCAN-15": {
+   "family": "Semantic",
+   "scope": "Edge",
+   "primitives": [
+    "SEM_09"
+   ],
+   "capabilities": {
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "SEM-SCAN-16": {
+   "family": "Semantic",
+   "scope": "Edge",
+   "primitives": [
+    "SEM_10",
+    "T02",
+    "T11"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_direction": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "INV-01": {
+   "family": "Local (Event-Driven)",
+   "scope": "Node (dormant candidates within the activated path's neighborhood)",
+   "primitives": [
+    "T06",
+    "R07"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "INV-02": {
+   "family": "Local (Event-Driven)",
+   "scope": "Hypothesis (subgraph-wide path search between two fixed endpoints)",
+   "primitives": [
+    "T03",
+    "R15",
+    "T05"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "edge_scores": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "INV-03": {
+   "family": "Local (Event-Driven)",
+   "scope": "Edge (the specific edge SCAN-03/SEM-SCAN-09/SEM-SCAN-16 flagged)",
+   "primitives": [
+    "E06",
+    "E07",
+    "E16",
+    "SEM_03"
+   ],
+   "capabilities": {
+    "edge_conflict": "PASS",
+    "edge_modality": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "INV-04": {
+   "family": "Local (Event-Driven)",
+   "scope": "Node (dormant nodes one hop upstream of an activated cluster)",
+   "primitives": [
+    "T01",
+    "N02",
+    "N05"
+   ],
+   "capabilities": {
+    "topology": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "INV-05": {
+   "family": "Local (Event-Driven)",
+   "scope": "Edge",
+   "primitives": [
+    "E08",
+    "R06"
+   ],
+   "capabilities": {
+    "edge_scores": "PASS",
+    "confidence_components": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "INV-06": {
+   "family": "Global (On-Demand)",
+   "scope": "Hypothesis (whole dormant subgraph)",
+   "primitives": [
+    "N06",
+    "T20"
+   ],
+   "capabilities": {
+    "edge_scores": "PASS",
+    "topology": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "INV-07": {
+   "family": "Global (On-Demand)",
+   "scope": "Edge (minimum across an activated path)",
+   "primitives": [
+    "T02",
+    "R06"
+   ],
+   "capabilities": {
+    "topology": "PASS",
+    "confidence_components": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "INV-08": {
+   "family": "Global (On-Demand)",
+   "scope": "Node (activated subgraph only)",
+   "primitives": [
+    "N02"
+   ],
+   "capabilities": {
+    "topology": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "INV-09": {
+   "family": "Global (On-Demand)",
+   "scope": "Hypothesis (4-axis composite, per edge/path decomposable)",
+   "primitives": [
+    "E17",
+    "T15",
+    "CLIN_04"
+   ],
+   "capabilities": {
+    "edge_modality": "PASS",
+    "orthologs": "PASS",
+    "clinical_evidence": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "INV-10": {
+   "family": "Global (On-Demand)",
+   "scope": "Node (dormant candidates, whole graph)",
+   "primitives": [
+    "R04",
+    "T20"
+   ],
+   "capabilities": {
+    "embeddings": "UNSUPPORTED",
+    "topology": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  },
+  "INV-11": {
+   "family": "Global (On-Demand)",
+   "scope": "Hypothesis (whole activated subgraph)",
+   "primitives": [
+    "T02",
+    "T04"
+   ],
+   "capabilities": {
+    "topology": "PASS"
+   },
+   "blocking": [],
+   "unsupported": [],
+   "verdict": "READY"
+  },
+  "INV-12": {
+   "family": "Global (On-Demand)",
+   "scope": "Network (cross-user, anonymized)",
+   "primitives": [
+    "V04",
+    "V12"
+   ],
+   "capabilities": {
+    "embeddings": "UNSUPPORTED"
+   },
+   "blocking": [],
+   "unsupported": [
+    "embeddings"
+   ],
+   "verdict": "UNSUPPORTED"
+  }
+ },
+ "summary": {
+  "READY": 75,
+  "UNSUPPORTED": 19
+ }
+}

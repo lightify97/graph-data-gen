@@ -1,0 +1,1624 @@
+# =============================================================================
+# Skygenic Knowledge Graph — Schema v1 (synthetic validation build)
+# =============================================================================
+# LAYER POLICY (decided 2026-08-01):
+#   layer: doc_verbatim  -> transcribed EXACTLY from "Nodes and Relationships.docx".
+#                           Duplicates and inverse pairs are PRESERVED, not merged.
+#                           Their effect on centrality math is the finding under test.
+#   layer: extension     -> NOT present in the Nodes doc. Required by primitives in
+#                           00_Primitive_Library or by source_registry.yaml. Every
+#                           entry names the primitive that forces it.
+#
+# Nothing in doc_verbatim has been normalised, renamed, deduplicated or redirected.
+# See docs/schema-gap-analysis.md for the conflict register.
+# =============================================================================
+
+meta:
+  version: 1
+  generated_for: synthetic-structure-validation
+  source_docs:
+    - "Nodes and Relationships.docx"
+    - "Skygenic_Scan_Master_Workbook_REFACTORED (4).xlsx"
+    - "app/configs/resources/source_registry.yaml"
+  excluded_domains: [agriculture]   # per source_registry excluded_entity_types
+  scan_count_total: 104
+  scan_count_in_scope: 94           # 104 minus 10 AG-SCAN
+
+# -----------------------------------------------------------------------------
+# UNIVERSAL NODE PROPERTY CONTRACT
+# -----------------------------------------------------------------------------
+# EVERY node in the graph carries every field marked required:true below,
+# regardless of label and regardless of layer. Per-label `properties:` blocks
+# list ONLY the type-specific fields on top of this contract.
+#
+# Six of these are not a house style choice — PRIM_N08 get_node_metadata is
+# specified to return exactly:
+#     {entity_type, canonical_id, ontology_refs, synonyms, species, created_at}
+# so any node missing them breaks entity resolution, provenance and display for
+# every scan that calls N08.
+#
+# Enforced by validate/contracts.py; violations fail the load, they do not warn.
+# -----------------------------------------------------------------------------
+node_property_contract:
+
+  # --- identity -------------------------------------------------------------
+  uid:
+    type: string
+    required: true
+    desc: "Global unique key, namespaced '<Label>:<canonical_id>'. Neo4j uniqueness constraint."
+    example: "Gene:HGNC:11998"
+  canonical_id:
+    type: string
+    required: true
+    desc: "PRIM_N08. Authoritative accession in its home namespace, no prefix."
+    example: "HGNC:11998"
+  entity_type:
+    type: string
+    required: true
+    desc: "PRIM_N08 / PRIM_N07 compute_node_class. Denormalised label so class
+           branching never needs a label lookup."
+  synonyms:
+    type: "list[string]"
+    required: true
+    default: []
+    desc: "PRIM_N08. Empty list is valid; null is not. Feeds PRIM_V13 / PRIM_H01
+           entity resolution."
+  ontology_refs:
+    type: "list[string]"
+    required: true
+    default: []
+    desc: "PRIM_N08. Cross-ontology xrefs, prefixed CURIEs."
+  species:
+    type: int
+    required: false
+    desc: "PRIM_N08. NCBI taxon id. Null only for species-agnostic labels
+           (OntologyTerm, Publication, Dataset, ScanResult, AuditEvent)."
+
+  # --- provenance -----------------------------------------------------------
+  source:
+    type: string
+    required: true
+    desc: "Primary source_id from source_registry.yaml that this record was built
+           from. For generated records, the source of the SEED it was derived from."
+    enum_ref: "source_registry.yaml entity_types[*].{primary,supplementary}[*].source_id"
+    example: "hgnc"
+  source_priority:
+    type: int
+    required: true
+    enum: [1, 2]
+    desc: "1 = primary source, 2 = supplementary. Mirrors source_registry priority."
+  source_ids:
+    type: "list[string]"
+    required: true
+    default: []
+    desc: "Every source_id that contributed a field to this record, in merge order."
+  source_url:
+    type: string
+    required: false
+    desc: "Exact retrieval URL for the seed record. Null for purely generated nodes."
+  source_retrieved_at:
+    type: datetime
+    required: false
+    desc: "When the upstream source was actually called. Null for generated nodes."
+
+  # --- synthetic provenance (mandatory for this build) ----------------------
+  is_synthetic:
+    type: boolean
+    required: true
+    desc: "TRUE if this record was generated rather than fetched from a live API.
+           Non-negotiable: the whole point of this build is that a reader can tell
+           real seed data from generated data without guessing."
+  synthesis_method:
+    type: string
+    required: false
+    enum: [seed_fetched, seed_derived, degree_preserving_expansion,
+           ontology_walk, statistical_sample, template_instantiated]
+    desc: "How a synthetic record came to exist. Null iff is_synthetic = false."
+  synthesis_seed_uid:
+    type: string
+    required: false
+    desc: "uid of the real fetched node this record was derived from, when
+           is_synthetic = true and it descends from a real seed."
+
+  # --- lifecycle ------------------------------------------------------------
+  created_at:
+    type: datetime
+    required: true
+    desc: "PRIM_N08. Immutable. Set once at first write, never rewritten."
+  updated_at:
+    type: datetime
+    required: true
+    desc: "Bumped on every property mutation. Equals created_at on first write."
+  ingested_at:
+    type: datetime
+    required: true
+    desc: "When this record entered THIS graph, as distinct from created_at on the
+           upstream record."
+  valid_from:
+    type: datetime
+    required: true
+    desc: "Temporal-service anchor. Start of this record's validity window."
+  valid_to:
+    type: datetime
+    required: false
+    desc: "End of validity window. Null = currently valid. Reserved for the
+           temporal scan service; never set during the initial load."
+
+  # --- versioning / integrity ----------------------------------------------
+  Dv_created:
+    type: int
+    required: true
+    desc: "PRIM_S01 monotonic Data Version at insert."
+  Tv_created:
+    type: int
+    required: true
+    desc: "PRIM_S02 Topology Version at insert."
+  record_hash:
+    type: string
+    required: true
+    desc: "SHA256 over the sorted type-specific property set. Change detection and
+           idempotent re-load. Excludes updated_at so it is stable across no-op writes."
+  schema_version:
+    type: int
+    required: true
+    desc: "meta.version this record conforms to. Enables mixed-version migration."
+  layer:
+    type: string
+    required: true
+    enum: [doc_verbatim, extension]
+    desc: "Which schema layer this node's label belongs to. Denormalised so a query
+           can exclude extension-layer nodes without a label join."
+
+# -----------------------------------------------------------------------------
+# NODE LABELS
+# Per-label properties below are IN ADDITION TO node_property_contract.
+# -----------------------------------------------------------------------------
+nodes:
+
+  # --- Part 1: currently available nodes ------------------------------------
+  Gene:
+    layer: doc_verbatim
+    key: gene_id
+    scan_utility: "SCAN-18 QTL-to-Pathway, SCAN-13 Polygenic Mechanism"
+    properties:
+      gene_id:        {type: string, required: true, desc: "HGNC ID, canonical"}
+      symbol:         {type: string, required: true}
+      name:           {type: string}
+      ensembl_id:     {type: string}
+      ncbi_gene_id:   {type: string}
+      chromosome:     {type: string}
+      biotype:        {type: string}
+
+  Protein:
+    layer: doc_verbatim
+    key: protein_id
+    scan_utility: "SCAN-24 Target Prioritization, SCAN-05 Gap Detection, SCAN-28 Off-Target"
+    properties:
+      protein_id:     {type: string, required: true, desc: "UniProt accession"}
+      name:           {type: string, required: true}
+      gene_symbol:    {type: string}
+      length_aa:      {type: int}
+      reviewed:       {type: boolean}
+      pdb_refs:       {type: "list[string]"}
+      encoded_by_symbols:
+                      {type: "list[string]", desc: "Gene symbols encoding this protein.
+                       Gene->Protein is many-to-one (SMN1 and SMN2 both encode
+                       UniProt Q16637), so a single gene_symbol is lossy."}
+      druggability:   {type: float, range: [0,1], desc: "PRIM_H05 SEM-02 applicability"}
+
+  BiologicalProcess:
+    layer: doc_verbatim
+    key: process_id
+    scan_utility: "SCAN-26 Mechanistic Confidence"
+    properties:
+      process_id:     {type: string, required: true, desc: "GO BP id"}
+      name:           {type: string, required: true}
+      go_namespace:   {type: string}
+
+  Pathway:
+    layer: doc_verbatim
+    key: pathway_id
+    scan_utility: "SCAN-07 Minimal Causal Subgraph, SCAN-13 Polygenic Mechanism"
+    properties:
+      pathway_id:     {type: string, required: true, desc: "Reactome stable id / KEGG"}
+      name:           {type: string, required: true}
+      source_db:      {type: string}
+
+  Variant:
+    layer: doc_verbatim
+    key: variant_id
+    scan_utility: "SCAN-09 Causal Validation (MR), SCAN-18 QTL Mapping"
+    secondary_labels:
+      - label: GeneticVariant
+        layer: extension
+        forced_by: "PRIM_G01 — 'the graph schema must instantiate a specialized
+                    GeneticVariant node class containing variant_id (rsID),
+                    chromosome, base_position, p_raw, effect_weight'"
+        applies_when: "variant carries GWAS/QTL statistics"
+    properties:
+      variant_id:     {type: string, required: true, desc: "rsID"}
+      chromosome:     {type: string, required: true}     # PRIM_G01
+      base_position:  {type: int,    required: true}     # PRIM_G01
+      ref_allele:     {type: string}
+      alt_allele:     {type: string}
+      p_raw:          {type: float}                      # PRIM_G01
+      effect_weight:  {type: float}                      # PRIM_G01
+      consequence:    {type: string}
+      clinical_significance: {type: string}
+      allele_frequency: {type: float, range: [0,1]}
+
+  Disease:
+    layer: doc_verbatim
+    key: disease_id
+    scan_utility: "SCAN-27 Indication Mechanism & Cross-Indication Similarity"
+    properties:
+      disease_id:     {type: string, required: true, desc: "MONDO id"}
+      name:           {type: string, required: true}
+      biological_domain: {type: string, required: true,
+                          enum: [oncology, immunology, neurodegeneration, cardiometabolic,
+                                 gene_therapy, rare_disease, infectious_disease, aging, general],
+                          desc: "drives 00_Domain_Scaling_Table lookup via PRIM_H05"}
+      efo_id:         {type: string}
+      omim_ids:       {type: "list[string]"}
+      prevalence:     {type: float}
+
+  Phenotype:
+    layer: doc_verbatim
+    key: phenotype_id
+    scan_utility: "SCAN-17 Predictive Biomarker, SCAN-15 Trait-Mechanism"
+    properties:
+      phenotype_id:   {type: string, required: true, desc: "HPO id"}
+      name:           {type: string, required: true}
+
+  Drug:
+    layer: doc_verbatim
+    key: drug_id
+    scan_utility: "SCAN-29 Preclinical-Clinical Alignment"
+    properties:
+      drug_id:        {type: string, required: true, desc: "ChEMBL id"}
+      name:           {type: string, required: true}
+      max_phase:      {type: int, range: [0,4]}
+      approved:       {type: boolean}
+      molecule_type:  {type: string}
+      atc_codes:      {type: "list[string]"}
+
+  Compound:
+    layer: doc_verbatim
+    key: compound_id
+    scan_utility: "early screening pre-clinical; feeds SCAN-28 Toxicity Risk"
+    properties:
+      compound_id:    {type: string, required: true}
+      name:           {type: string}
+      smiles:         {type: string}
+      inchikey:       {type: string}
+      morgan_fp:      {type: "list[int]", desc: "SIM_03 Tanimoto on Morgan fingerprints"}
+      mw:             {type: float}
+
+  SkygenicHypothesis:
+    layer: doc_verbatim
+    key: hypothesis_id
+    scan_utility: "SCAN-19 Hypothesis Convergence, SCAN-20 Lifecycle & Governance"
+    properties:
+      hypothesis_id:  {type: string, required: true}
+      title:          {type: string, required: true}
+      Hv:             {type: int, required: true, desc: "PRIM_S03 hypothesis version"}
+      Dv:             {type: int, required: true, desc: "PRIM_S01 data version"}
+      Tv:             {type: int, required: true, desc: "PRIM_S02 topology version"}
+      biological_domain: {type: string, required: true}   # PRIM_H05
+      decision_context:  {type: string, required: true,
+                          enum: [fundraising, grant_submission, portfolio_decision,
+                                 indication_expansion, pre_ind, partnership,
+                                 publication, discovery]}
+      query_type:     {type: string, enum: [exploratory, refinement, validation, clinical]}
+      pending:        {type: boolean, desc: "PRIM_S20 creates pending=true"}
+      locked:         {type: boolean, desc: "PRIM_S14 capital decision lock"}
+      current_MC:     {type: float, range: [-1,1]}
+      novelty_score:  {type: float, range: [0,1]}
+
+  OntologyTerm:
+    layer: doc_verbatim
+    key: term_id
+    scan_utility: "SCAN-25 Hidden Interaction Prediction — semantic similarity"
+    properties:
+      term_id:        {type: string, required: true}
+      name:           {type: string, required: true}
+      ontology:       {type: string, required: true, enum: [GO, MONDO, HPO, EFO, UBERON, CL]}
+      namespace:      {type: string}
+
+  Tissue:
+    layer: doc_verbatim
+    key: tissue_id
+    scan_utility: "SCAN-08 Interaction Context — Modality Coverage / Context-Universal"
+    note: "Part 1 flags this as visually orphaned but computationally required."
+    properties:
+      tissue_id:      {type: string, required: true, desc: "UBERON id"}
+      name:           {type: string, required: true}
+      gtex_name:      {type: string}
+
+  ProteinComplex:
+    layer: doc_verbatim
+    key: complex_id
+    scan_utility: "SCAN-24 prioritization operates on multimeric assemblies"
+    note: "Part 1 flags this as visually orphaned but computationally required."
+    properties:
+      complex_id:     {type: string, required: true}
+      name:           {type: string, required: true}
+      stoichiometry:  {type: string}
+
+  # --- Part 2: governance & lifecycle nodes ---------------------------------
+  LifecycleState:
+    layer: doc_verbatim
+    key: state_id
+    required_by: "SCAN-20 Lifecycle & Governance Tracking"
+    properties:
+      state_id:       {type: string, required: true}
+      name:           {type: string, required: true,
+                       enum: [Draft, Active, Submitted, Defended, Archived]}
+      entered_at:     {type: datetime, required: true}
+      days_in_state:  {type: int}
+
+  HypothesisVersion:
+    layer: doc_verbatim
+    key: version_id
+    required_by: "SCAN-30 Hypothesis Stability, SCAN-31 Evidence Convergence"
+    properties:
+      version_id:     {type: string, required: true}
+      Hv:             {type: int, required: true}
+      MC:             {type: float, range: [-1,1], required: true}
+      MR:             {type: float, range: [0,1]}
+      R:              {type: float, range: [0,1], desc: "replication component"}
+      K:              {type: float, range: [0,1], desc: "contradiction component"}
+      stability:      {type: float, range: [0,1]}
+      delta_MC:       {type: float}
+      evidence_count: {type: int}
+      trigger:        {type: string,
+                       enum: [DATA_INJECTION, HYPOTHESIS_EDIT, RECALIBRATION, SCHEMA_UPDATE]}
+      snapshot_hash:  {type: string, desc: "PRIM_T16 SHA256"}
+      timestamp:      {type: datetime, required: true}
+
+  ReasoningChain:
+    layer: doc_verbatim
+    key: chain_id
+    required_by: "SCAN-21 Explainability & Evidence Traceability"
+    properties:
+      chain_id:       {type: string, required: true}
+      steps:          {type: "list[string]", required: true}
+      step_count:     {type: int}
+      path_traceability:      {type: float, range: [0,1]}
+      evidence_coverage:      {type: float, range: [0,1]}
+      explanation_completeness: {type: float, range: [0,1]}
+
+  Publication:
+    layer: doc_verbatim
+    key: publication_id
+    required_by: "SCAN-11 Evidence Provenance & Audit"
+    properties:
+      publication_id: {type: string, required: true, desc: "PMID / DOI / GEO accession"}
+      title:          {type: string}
+      journal:        {type: string}
+      issn:           {type: string, desc: "PRIM_P06 journal authority lookup"}
+      publication_year: {type: int, required: true, desc: "PRIM_E01 SA decay, PRIM_E19"}
+      source_type:    {type: string, required: true,
+                       enum: [curated_ontology, peer_reviewed, clinical_registry,
+                              user_uploaded, preprint, user_hypothesis, llm_inference, chat],
+                       desc: "PRIM_P05 source authority table key"}
+      citation_count: {type: int, desc: "SEM_05 citation trajectory"}
+      doi:            {type: string}
+
+  ConfidenceScore:
+    layer: doc_verbatim
+    key: score_id
+    required_by: "SCAN-26 Mechanistic Confidence, SCAN-24 Target Prioritization"
+    properties:
+      score_id:       {type: string, required: true}
+      MC:             {type: float, range: [-1,1]}
+      MR:             {type: float, range: [0,1], desc: "confounding risk"}
+      target_score:   {type: float, range: [0,1]}
+      component_C:    {type: float, range: [0,1], desc: "centrality (PRIM_N05)"}
+      component_dS:   {type: float, range: [0,1], desc: "cohort separation (PRIM_N10)"}
+      component_R:    {type: float, range: [0,1], desc: "replication (PRIM_E11)"}
+      component_P:    {type: float, range: [0,1], desc: "perturbation (PRIM_T14)"}
+      component_K:    {type: float, range: [0,1], desc: "contradiction (PRIM_E07)"}
+      formula_version: {type: string}
+      computed_at:    {type: datetime, required: true}
+
+  Evidence:
+    layer: doc_verbatim
+    key: evidence_id
+    required_by: "SCAN-10 Cross-Modality Concordance, SCAN-06 Evidence Maturity"
+    properties:
+      evidence_id:    {type: string, required: true}
+      modality:       {type: string, required: true,
+                       enum: [rna_seq, proteomics, crispr_screen, clinical_trial,
+                              gwas, imaging, metabolomics, single_cell, in_vitro, in_vivo],
+                       desc: "PRIM_E16 modality coverage, PRIM_I10 classify_modality"}
+      evidence_type:  {type: string, required: true,
+                       enum: [experimental_validation, replication, high_throughput,
+                              curated_db, inferred, text_mined, speculative, llm_inferred],
+                       desc: "PRIM_E02 static ES lookup"}
+      effect_size:    {type: float}
+      adj_p:          {type: float}
+      sample_size:    {type: int}
+      replicate_count: {type: int}
+      is_clinical:    {type: boolean, desc: "CLIN_02 distinguishes clinical vs preclinical"}
+      disease_stage:  {type: string, desc: "PRIM_E21 stage-stratified effect (SCAN-33)"}
+      batch_id:       {type: string, desc: "PRIM_E22 batch variance (SCAN-35)"}
+      platform:       {type: string, desc: "PRIM_E22 platform variance"}
+      lab_id:         {type: string, desc: "PRIM_E22 single-lab dependency"}
+
+  Trait:
+    layer: doc_verbatim
+    key: trait_id
+    required_by: "SCAN-15 Trait-Mechanism Association"
+    note: "Deliberately distinct from clinically diagnosed Disease and observed Phenotype."
+    properties:
+      trait_id:       {type: string, required: true, desc: "EFO id"}
+      name:           {type: string, required: true}
+      trait_category: {type: string}
+
+  Species:
+    layer: doc_verbatim
+    key: taxon_id
+    required_by: "SCAN-12 Cross-Species Homology, SCAN-16 Cross-Species Conservation"
+    properties:
+      taxon_id:       {type: int, required: true, desc: "NCBI taxonomy id"}
+      name:           {type: string, required: true}
+      common_name:    {type: string}
+      is_model_organism: {type: boolean}
+
+  # --- EXTENSION LAYER — not in Nodes doc, forced by primitives -------------
+  Dataset:
+    layer: extension
+    key: dataset_id
+    forced_by: "PRIM_N07 (node class enum includes Dataset), PRIM_E13
+                get_edges_by_dataset, PRIM_I01 generates dataset_id,
+                PRIM_T17 get_affected_subgraph_for_dataset"
+    properties:
+      dataset_id:     {type: string, required: true}
+      name:           {type: string}
+      modality:       {type: string, required: true}
+      platform:       {type: string}
+      sample_count:   {type: int}
+      file_hash:      {type: string, desc: "PRIM_I07 SHA256(file_contents)"}
+      source_type:    {type: string, required: true}
+
+  Cohort:
+    layer: extension
+    key: cohort_id
+    forced_by: "PRIM_N07 (node class enum includes Cohort), PRIM_N10
+                compute_cohort_separation_for_node, PRIM_G02 compute_variant_burden"
+    properties:
+      cohort_id:      {type: string, required: true}
+      name:           {type: string}
+      cohort_state:   {type: string, required: true, enum: [disease, control],
+                       desc: "PRIM_N10 |centrality(disease_state) - centrality(control_state)|"}
+      n_subjects:     {type: int, required: true}
+      ancestry:       {type: string, desc: "SCAN-34 transportability, BREED_05 stratification"}
+      age_mean:       {type: float}
+
+  Assertion:
+    layer: extension
+    key: assertion_id
+    forced_by: "PRIM_S16 write_assertion, PRIM_I04 generate_canonical_assertions,
+                PRIM_E15 get_edge_provenance returns assertion_ids,
+                PRIM_H03 classify_assertion_evidence"
+    properties:
+      assertion_id:   {type: string, required: true}
+      row_hash:       {type: string, required: true, desc: "PRIM_I08 dedup key"}
+      predicate:      {type: string, required: true}
+      direction:      {type: int, enum: [-1, 0, 1], desc: "PRIM_E05 concordance"}
+      strength:       {type: float, range: [0,1], desc: "PRIM_H03 threshold 0.40/0.50"}
+      ES_assertion:   {type: float, range: [0,1], desc: "PRIM_E03"}
+      effect_size:    {type: float}
+      adj_p:          {type: float}
+      n:              {type: int}
+      context:        {type: string}
+      promotion_decision: {type: string,
+                       enum: [AUTOMATIC, MANUAL_APPROVED, AGENT_SUGGESTED_APPROVED,
+                              REVIEW, REJECTED],
+                       desc: "PRIM_I05 route_promotion_decision"}
+      resolution_confidence: {type: float, range: [0,1], desc: "PRIM_I03 / PRIM_V13"}
+
+  BiologicalState:
+    layer: extension
+    key: state_id
+    forced_by: "PRIM_S07 write_biological_state (new version, never overwrites),
+                PRIM_S21 link_hypothesis_to_state"
+    properties:
+      state_id:       {type: string, required: true}
+      Dv:             {type: int, required: true}
+      Tv:             {type: int, required: true}
+      snapshot_hash:  {type: string, required: true, desc: "PRIM_T16"}
+      node_count:     {type: int}
+      edge_count:     {type: int}
+      weight_sum:     {type: float}
+      modularity:     {type: float, desc: "PRIM_T08"}
+      written_at:     {type: datetime, required: true}
+
+  CellType:
+    layer: extension
+    key: cell_type_id
+    forced_by: "source_registry CELL_TYPE entity type; ONC_05 compute_TME_score(gene,
+                cell_types); IMM_01 compute_immune_infiltration returns cell_type"
+    properties:
+      cell_type_id:   {type: string, required: true, desc: "CL id"}
+      name:           {type: string, required: true}
+
+  ScanResult:
+    layer: extension
+    key: result_id
+    forced_by: "PRIM_S10 persist_scan_result (full ScanResult + version_triplet +
+                snapshot_hash + formula_version)"
+    properties:
+      result_id:      {type: string, required: true}
+      scan_id:        {type: string, required: true}
+      subject_id:     {type: string, required: true}
+      subject_kind:   {type: string, enum: [node, edge, hypothesis, network]}
+      computed_fields: {type: map}
+      narrative_terms: {type: map}
+      narrative_primitive_type: {type: string}
+      result_category: {type: string}
+      Dv:             {type: int, required: true}
+      Tv:             {type: int, required: true}
+      Hv:             {type: int, required: true}
+      snapshot_hash:  {type: string, required: true}
+      formula_version: {type: string, required: true}
+      timestamp:      {type: datetime, required: true}
+
+  AuditEvent:
+    layer: extension
+    key: event_id
+    forced_by: "PRIM_S13 create_audit_event — immutable append-only log"
+    properties:
+      event_id:       {type: string, required: true}
+      event_type:     {type: string, required: true,
+                       enum: [DATA_VERSION_INCREMENT, TOPOLOGY_VERSION_INCREMENT,
+                              HYPOTHESIS_VERSION_INCREMENT, SCAN_EXECUTED, STATE_WRITTEN,
+                              SCORES_WRITTEN, OVERRIDE_APPLIED, ASSERTION_PROMOTED,
+                              CAPITAL_DECISION_LOCK, MANUAL_APPROVAL_GRANTED,
+                              MANUAL_APPROVAL_DENIED]}
+      actor:          {type: string, enum: [USER, AGENT, SYSTEM]}
+      payload:        {type: map}
+      timestamp:      {type: datetime, required: true}
+
+# -----------------------------------------------------------------------------
+# UNIVERSAL EDGE PROPERTIES
+# Every doc_verbatim biological edge carries these. They are what SCAN-01 and the
+# whole downstream cascade actually read.
+# -----------------------------------------------------------------------------
+edge_property_contract:
+  edge_id:            {type: string, required: true}
+  SA:                 {type: float, range: [0,1], required: true, desc: "PRIM_E01 source authority"}
+  ES_edge:            {type: float, range: [0,1], required: true, desc: "PRIM_E02"}
+  ES_assertion:       {type: float, range: [0,1], desc: "PRIM_E03"}
+  edge_aggregate_score: {type: float, range: [0,1], required: true, desc: "PRIM_E04 — the FinalScore"}
+  edge_quality_tier:  {type: string, enum: ["Tier 1 (Validated Consensus)",
+                                            "Tier 2 (Supported)",
+                                            "Tier 3 (Exploratory)",
+                                            "Tier 4 (Speculative)"],
+                       desc: "SCAN-01 canonical user-facing rating"}
+  direction:          {type: int, enum: [-1, 0, 1], required: true, desc: "SCAN-03 directional signal"}
+  recency:            {type: float, range: [0,1], desc: "PRIM_E19 exp(-lambda*years)"}
+  replication_score:  {type: float, range: [0,1], desc: "PRIM_E11"}
+  evidence_count:     {type: int, required: true, desc: "PRIM_E14"}
+  pos_count:          {type: int, desc: "PRIM_E05 concordance"}
+  neg_count:          {type: int, desc: "PRIM_E05 concordance"}
+  conflict_score:     {type: float, range: [0,1], desc: "PRIM_E06 K_edge"}
+  concordance_flag:   {type: string, enum: [CONCORDANT, CONTEXT_DEPENDENT, CONTRADICTORY]}
+  edge_class:         {type: string, required: true, desc: "PRIM_E12 / PRIM_P02 family matrix"}
+  source_type:        {type: string, required: true, desc: "PRIM_P05"}
+  publication_year:   {type: int, desc: "PRIM_E01 SA decay"}
+  dataset_ids:        {type: "list[string]", required: true, desc: "PRIM_E13, PRIM_E15"}
+  assertion_ids:      {type: "list[string]", desc: "PRIM_E15"}
+  modality:           {type: string, desc: "PRIM_E16 / PRIM_E17"}
+  observed_families:  {type: int, desc: "PRIM_E08 support saturation"}
+  Tv_created:         {type: int, required: true, desc: "PRIM_S02 topology version at creation"}
+  formula_version:    {type: string}
+  promotion_ts:       {type: datetime, desc: "PRIM_E15"}
+
+  # --- universal provenance / lifecycle, mirroring node_property_contract ----
+  # Same rationale as nodes: an edge whose origin and validity window cannot be
+  # stated is not auditable, and SCAN-11 (Evidence Provenance & Audit) exists
+  # precisely to assign 'Fully Traceable (Audit-Ready)'.
+  source:             {type: string,  required: true,
+                       desc: "Primary source_id from source_registry.yaml"}
+  source_priority:    {type: int,     required: true, enum: [1, 2]}
+  source_ids:         {type: "list[string]", required: true, default: []}
+  source_url:         {type: string,  required: false}
+  source_retrieved_at: {type: datetime, required: false}
+  is_synthetic:       {type: boolean, required: true,
+                       desc: "TRUE if generated rather than fetched from a live API"}
+  synthesis_method:   {type: string,  required: false,
+                       enum: [seed_fetched, seed_derived, degree_preserving_expansion,
+                              ontology_walk, statistical_sample, template_instantiated]}
+  created_at:         {type: datetime, required: true, desc: "Immutable, set once"}
+  updated_at:         {type: datetime, required: true, desc: "Bumped on every mutation"}
+  ingested_at:        {type: datetime, required: true}
+  valid_from:         {type: datetime, required: true, desc: "Temporal-service anchor"}
+  valid_to:           {type: datetime, required: false,
+                       desc: "Null = currently valid. Reserved for the temporal service.
+                              An edge retracted by newer evidence is closed here rather
+                              than deleted, so historical scan results stay reproducible."}
+  Dv_created:         {type: int, required: true, desc: "PRIM_S01"}
+  record_hash:        {type: string, required: true, desc: "SHA256 over sorted property set"}
+  schema_version:     {type: int, required: true}
+  layer:              {type: string, required: true, enum: [doc_verbatim, extension]}
+
+# -----------------------------------------------------------------------------
+# RELATIONSHIPS — doc_verbatim
+# Transcribed table-by-table from "Nodes and Relationships.docx" PART 2.
+# `doc_table` records which table each row came from, so duplicates stay traceable.
+# NOTHING HERE IS DEDUPLICATED. Collisions are intentional and under test.
+# -----------------------------------------------------------------------------
+relationships:
+
+  # --- Table: "Protein" (rows are mostly BiologicalProcess-sourced as written) ---
+  - type: ACTIVATES
+    from: Protein
+    to: BiologicalProcess
+    doc_table: Protein
+    layer: doc_verbatim
+    purpose: "Establishes the specific biological direction of an interaction."
+    criteria: "SCAN-01 ingestion threshold; SCAN-03 assigns positive directional score."
+    direction_default: 1
+
+  - type: INHIBITS
+    from: Protein
+    to: BiologicalProcess
+    doc_table: Protein
+    layer: doc_verbatim
+    purpose: "Establishes the specific inhibitory direction of an interaction."
+    direction_default: -1
+
+  - type: ACTIVATED_BY
+    from: BiologicalProcess
+    to: Drug
+    doc_table: Protein
+    layer: doc_verbatim
+    purpose: "Determines the biological direction of a pharmacological intervention."
+    direction_default: 1
+    conflict_ref: C-07   # arrow points at the agent, not the effect
+
+  - type: SUPPRESSED_BY
+    from: BiologicalProcess
+    to: Drug
+    doc_table: Protein
+    layer: doc_verbatim
+    direction_default: -1
+    conflict_ref: C-07
+
+  - type: CAUSES
+    from: BiologicalProcess
+    to: Disease
+    doc_table: Protein
+    layer: doc_verbatim
+    conflict_ref: C-01   # vs DRIVES_DISEASE_PATHOLOGY, vs DRIVES_PATHOLOGY
+    direction_default: 1
+
+  - type: ASSOCIATED_WITH
+    from: BiologicalProcess
+    to: Disease
+    doc_table: Protein
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: INVOLVES
+    from: BiologicalProcess
+    to: Variant
+    doc_table: Protein
+    layer: doc_verbatim
+    conflict_ref: C-08   # inverse of mQTL_MODULATES
+    direction_default: 0
+
+  - type: PRECEDES
+    from: BiologicalProcess
+    to: BiologicalProcess
+    doc_table: Protein
+    layer: doc_verbatim
+    conflict_ref: C-02   # vs TEMPORALLY_PRECEDES
+    acyclic_required: true
+    direction_default: 1
+
+  - type: RESULTS_IN
+    from: BiologicalProcess
+    to: Phenotype
+    doc_table: Protein
+    layer: doc_verbatim
+    conflict_ref: C-03   # vs PRODUCES_CLINICAL_PHENOTYPE, vs PRODUCES_OUTCOME
+    direction_default: 1
+
+  - type: CONSERVED_IN
+    from: BiologicalProcess
+    to: Species
+    doc_table: Protein
+    layer: doc_verbatim
+    conflict_ref: C-04   # vs EVOLUTIONARILY_CONSERVED_IN
+    direction_default: 0
+
+  - type: BIOMARKER_FOR
+    from: BiologicalProcess
+    to: Disease
+    doc_table: Protein
+    layer: doc_verbatim
+    conflict_ref: C-05   # vs SERVES_AS_BIOMARKER_FOR
+    direction_default: 0
+
+  - type: PART_OF
+    from: BiologicalProcess
+    to: Pathway
+    doc_table: Protein
+    layer: doc_verbatim
+    conflict_ref: C-06   # vs CONSTITUTES_PATHWAY
+    direction_default: 0
+
+  - type: OCCURS_IN
+    from: BiologicalProcess
+    to: Tissue
+    doc_table: Protein
+    layer: doc_verbatim
+    conflict_ref: C-09   # vs OPERATES_WITHIN_CONTEXT, vs CONTEXTUALIZES
+    direction_default: 0
+
+  - type: SUPPORTED_BY
+    from: BiologicalProcess
+    to: Publication
+    doc_table: Protein
+    layer: doc_verbatim
+    conflict_ref: C-10   # vs PROCESS_EVIDENCED_BY
+    direction_default: 0
+
+  - type: HAS_CONFIDENCE_SCORE
+    from: BiologicalProcess
+    to: Evidence
+    doc_table: Protein
+    layer: doc_verbatim
+    direction_default: 0
+
+  # --- Table: "Compounds" ---------------------------------------------------
+  - type: ACTIVATES
+    from: Compound
+    to: Protein
+    doc_table: Compounds
+    layer: doc_verbatim
+    conflict_ref: C-11   # type reused across a different endpoint pair
+    direction_default: 1
+
+  - type: INHIBITS
+    from: Compound
+    to: Protein
+    doc_table: Compounds
+    layer: doc_verbatim
+    conflict_ref: C-11
+    direction_default: -1
+
+  - type: CAUSES
+    from: Compound
+    to: Phenotype
+    doc_table: Compounds
+    layer: doc_verbatim
+    conflict_ref: C-11
+    direction_default: 1
+
+  - type: OFF_TARGET_INTERACTION
+    from: Compound
+    to: Protein
+    doc_table: Compounds
+    layer: doc_verbatim
+    criteria: "SCAN-28 Aggregate Off-Target Risk >= 0.65 = High Toxicity Risk"
+    direction_default: 0
+
+  - type: HAS_CONTEXT
+    from: Compound
+    to: Tissue
+    doc_table: Compounds
+    layer: doc_verbatim
+    direction_default: 0
+
+  # --- Table: "Biological process" (revised) --------------------------------
+  - type: DRIVES_DISEASE_PATHOLOGY
+    from: BiologicalProcess
+    to: Disease
+    doc_table: BiologicalProcess_revised
+    layer: doc_verbatim
+    conflict_ref: C-01
+    direction_default: 1
+
+  - type: PRODUCES_CLINICAL_PHENOTYPE
+    from: BiologicalProcess
+    to: Phenotype
+    doc_table: BiologicalProcess_revised
+    layer: doc_verbatim
+    conflict_ref: C-03
+    direction_default: 1
+
+  - type: TEMPORALLY_PRECEDES
+    from: BiologicalProcess
+    to: BiologicalProcess
+    doc_table: BiologicalProcess_revised
+    layer: doc_verbatim
+    conflict_ref: C-02
+    acyclic_required: true
+    direction_default: 1
+
+  - type: SERVES_AS_BIOMARKER_FOR
+    from: BiologicalProcess
+    to: Disease
+    doc_table: BiologicalProcess_revised
+    layer: doc_verbatim
+    conflict_ref: C-05
+    direction_default: 0
+
+  - type: CONSTITUTES_PATHWAY
+    from: BiologicalProcess
+    to: Pathway
+    doc_table: BiologicalProcess_revised
+    layer: doc_verbatim
+    conflict_ref: C-06
+    direction_default: 0
+
+  - type: OPERATES_WITHIN_CONTEXT
+    from: BiologicalProcess
+    to: Tissue
+    doc_table: BiologicalProcess_revised
+    layer: doc_verbatim
+    conflict_ref: C-09
+    direction_default: 0
+
+  - type: EVOLUTIONARILY_CONSERVED_IN
+    from: BiologicalProcess
+    to: Species
+    doc_table: BiologicalProcess_revised
+    layer: doc_verbatim
+    conflict_ref: C-04
+    direction_default: 0
+
+  - type: STANDARDIZED_BY_ONTOLOGY
+    from: BiologicalProcess
+    to: OntologyTerm
+    doc_table: BiologicalProcess_revised
+    layer: doc_verbatim
+    conflict_ref: C-12
+    direction_default: 0
+
+  - type: PROCESS_EVIDENCED_BY
+    from: BiologicalProcess
+    to: Publication
+    doc_table: BiologicalProcess_revised
+    layer: doc_verbatim
+    conflict_ref: C-10
+    direction_default: 0
+
+  # --- Table: "Gene Node" ---------------------------------------------------
+  - type: UPREGULATES
+    from: Gene
+    to: Gene
+    doc_table: Gene
+    layer: doc_verbatim
+    criteria: "SCAN-01 ingestion threshold >0.10; SCAN-03 assigns +1"
+    direction_default: 1
+
+  - type: DOWNREGULATES
+    from: Gene
+    to: Gene
+    doc_table: Gene
+    layer: doc_verbatim
+    direction_default: -1
+
+  - type: CAUSES
+    from: Gene
+    to: Disease
+    doc_table: Gene
+    layer: doc_verbatim
+    conflict_ref: C-11
+    direction_default: 1
+
+  - type: GENETICALLY_ASSOCIATED_WITH
+    from: Gene
+    to: Trait
+    doc_table: Gene
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: REGULATED_BY_QTL
+    from: Gene
+    to: Variant
+    doc_table: Gene
+    layer: doc_verbatim
+    conflict_ref: C-13   # inverse of eQTL_MODULATES
+    direction_default: 0
+
+  - type: PARTICIPATES_IN
+    from: Gene
+    to: Pathway
+    doc_table: Gene
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: INTERACTS_WITH
+    from: Gene
+    to: Gene
+    doc_table: Gene
+    layer: doc_verbatim
+    symmetric: true
+    direction_default: 0
+
+  - type: PREDICTED_TO_INTERACT_WITH
+    from: Gene
+    to: Gene
+    doc_table: Gene
+    layer: doc_verbatim
+    criteria: "SCAN-25 High-Confidence Prediction >= 0.75"
+    symmetric: true
+    direction_default: 0
+
+  - type: ORTHOLOG_OF
+    from: Gene
+    to: Gene
+    doc_table: Gene
+    layer: doc_verbatim
+    criteria: "PRIM_T15 min_confidence 0.70; SCAN-12 Homology Score"
+    symmetric: true
+    direction_default: 0
+
+  - type: CONSERVED_IN
+    from: Gene
+    to: Species
+    doc_table: Gene
+    layer: doc_verbatim
+    conflict_ref: C-04
+    direction_default: 0
+
+  - type: BIOMARKER_FOR
+    from: Gene
+    to: Disease
+    doc_table: Gene
+    layer: doc_verbatim
+    conflict_ref: C-05
+    direction_default: 0
+
+  - type: EXPRESSED_IN
+    from: Gene
+    to: Tissue
+    doc_table: Gene
+    layer: doc_verbatim
+    conflict_ref: C-14   # inverse of Tissue EXPRESSES
+    direction_default: 0
+
+  - type: SUPPORTED_BY
+    from: Gene
+    to: Publication
+    doc_table: Gene
+    layer: doc_verbatim
+    conflict_ref: C-10
+    direction_default: 0
+
+  - type: HAS_CONFIDENCE_SCORE
+    from: Gene
+    to: Evidence
+    doc_table: Gene
+    layer: doc_verbatim
+    direction_default: 0
+
+  # --- Table: "Tissue Node" -------------------------------------------------
+  - type: EXPRESSES
+    from: Tissue
+    to: Gene
+    doc_table: Tissue
+    layer: doc_verbatim
+    conflict_ref: C-14
+    direction_default: 0
+
+  - type: CONTAINS_BIOMARKER
+    from: Tissue
+    to: Protein
+    doc_table: Tissue
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: CONTEXTUALIZES
+    from: Tissue
+    to: BiologicalProcess
+    doc_table: Tissue
+    layer: doc_verbatim
+    conflict_ref: C-09
+    direction_default: 0
+
+  - type: EXHIBITS_PATHOLOGY_OF
+    from: Tissue
+    to: Disease
+    doc_table: Tissue
+    layer: doc_verbatim
+    conflict_ref: C-15   # inverse of LOCALIZES_PATHOLOGY_IN
+    direction_default: 0
+
+  - type: ACCUMULATES
+    from: Tissue
+    to: Drug
+    doc_table: Tissue
+    layer: doc_verbatim
+    conflict_ref: C-16   # inverse of DISTRIBUTED_IN_CONTEXT
+    direction_default: 0
+
+  - type: CONSERVED_IN
+    from: Tissue
+    to: Species
+    doc_table: Tissue
+    layer: doc_verbatim
+    conflict_ref: C-04
+    direction_default: 0
+
+  - type: SUPPORTED_BY
+    from: Tissue
+    to: Publication
+    doc_table: Tissue
+    layer: doc_verbatim
+    conflict_ref: C-10
+    direction_default: 0
+
+  # --- Table: "Protein Complex Node" ----------------------------------------
+  - type: ACTIVATES
+    from: ProteinComplex
+    to: BiologicalProcess
+    doc_table: ProteinComplex
+    layer: doc_verbatim
+    conflict_ref: C-11
+    direction_default: 1
+
+  - type: INHIBITS
+    from: ProteinComplex
+    to: Pathway
+    doc_table: ProteinComplex
+    layer: doc_verbatim
+    conflict_ref: C-11
+    direction_default: -1
+
+  - type: CAUSES
+    from: ProteinComplex
+    to: Disease
+    doc_table: ProteinComplex
+    layer: doc_verbatim
+    conflict_ref: C-11
+    direction_default: 1
+
+  - type: HAS_COMPONENT
+    from: ProteinComplex
+    to: Protein
+    doc_table: ProteinComplex
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: PREDICTED_TO_INTERACT_WITH
+    from: ProteinComplex
+    to: ProteinComplex
+    doc_table: ProteinComplex
+    layer: doc_verbatim
+    conflict_ref: C-11
+    symmetric: true
+    direction_default: 0
+
+  - type: CONSERVED_IN
+    from: ProteinComplex
+    to: Species
+    doc_table: ProteinComplex
+    layer: doc_verbatim
+    conflict_ref: C-04
+    direction_default: 0
+
+  - type: BIOMARKER_FOR
+    from: ProteinComplex
+    to: Phenotype
+    doc_table: ProteinComplex
+    layer: doc_verbatim
+    conflict_ref: C-05
+    direction_default: 0
+
+  - type: OCCURS_IN
+    from: ProteinComplex
+    to: Tissue
+    doc_table: ProteinComplex
+    layer: doc_verbatim
+    conflict_ref: C-09
+    direction_default: 0
+
+  - type: SUPPORTED_BY
+    from: ProteinComplex
+    to: Publication
+    doc_table: ProteinComplex
+    layer: doc_verbatim
+    conflict_ref: C-10
+    direction_default: 0
+
+  - type: HAS_CONFIDENCE_SCORE
+    from: ProteinComplex
+    to: Evidence
+    doc_table: ProteinComplex
+    layer: doc_verbatim
+    direction_default: 0
+
+  # --- Table: "Ontology Node" -----------------------------------------------
+  - type: CATEGORIZES_GENE
+    from: Gene
+    to: OntologyTerm
+    doc_table: Ontology
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: CLASSIFIES_PROTEIN
+    from: Protein
+    to: OntologyTerm
+    doc_table: Ontology
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: STANDARDIZES_DISEASE
+    from: Disease
+    to: OntologyTerm
+    doc_table: Ontology
+    layer: doc_verbatim
+    conflict_ref: C-12   # vs STANDARDIZED_BY_ONTOLOGY (Disease table)
+    direction_default: 0
+
+  - type: DEFINES_PHENOTYPE
+    from: Phenotype
+    to: OntologyTerm
+    doc_table: Ontology
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: ONTOLOGICALLY_INCLUDES
+    from: OntologyTerm
+    to: OntologyTerm
+    doc_table: Ontology
+    layer: doc_verbatim
+    acyclic_required: true
+    purpose: "parent-child DAG for semantic distance"
+    direction_default: 1
+
+  - type: CONTEXTUALIZES_ANATOMY
+    from: Tissue
+    to: OntologyTerm
+    doc_table: Ontology
+    layer: doc_verbatim
+    direction_default: 0
+
+  # --- Table: "Variants Node" -----------------------------------------------
+  - type: eQTL_MODULATES
+    from: Variant
+    to: Gene
+    doc_table: Variant
+    layer: doc_verbatim
+    conflict_ref: C-13
+    criteria: "SCAN-18 High QTL Co-localization >= 0.75"
+    direction_default: 1
+
+  - type: pQTL_MODULATES
+    from: Variant
+    to: Protein
+    doc_table: Variant
+    layer: doc_verbatim
+    direction_default: 1
+
+  - type: mQTL_MODULATES
+    from: Variant
+    to: BiologicalProcess
+    doc_table: Variant
+    layer: doc_verbatim
+    conflict_ref: C-08
+    direction_default: 1
+
+  - type: CAUSALLY_DRIVES
+    from: Variant
+    to: Disease
+    doc_table: Variant
+    layer: doc_verbatim
+    conflict_ref: C-17   # vs MR_VALIDATES_RISK_FOR
+    direction_default: 1
+
+  - type: GWAS_ASSOCIATED_WITH
+    from: Variant
+    to: Trait
+    doc_table: Variant
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: ALTERS_DRUG_RESPONSE
+    from: Variant
+    to: Drug
+    doc_table: Variant
+    layer: doc_verbatim
+    direction_default: 0
+
+  # --- Table: "Phenotype Node" ----------------------------------------------
+  - type: DRIVES_PHENOTYPE
+    from: Gene
+    to: Phenotype
+    doc_table: Phenotype
+    layer: doc_verbatim
+    direction_default: 1
+
+  - type: PRODUCES_OUTCOME
+    from: BiologicalProcess
+    to: Phenotype
+    doc_table: Phenotype
+    layer: doc_verbatim
+    conflict_ref: C-03
+    direction_default: 1
+
+  - type: QTL_ALTERS
+    from: Variant
+    to: Phenotype
+    doc_table: Phenotype
+    layer: doc_verbatim
+    direction_default: 1
+
+  - type: DISTINGUISHES_COHORT
+    from: Phenotype
+    to: Disease
+    doc_table: Phenotype
+    layer: doc_verbatim
+    criteria: "SCAN-17 Biomarker Score >= 0.70"
+    direction_default: 0
+
+  - type: AMELIORATES
+    from: Drug
+    to: Phenotype
+    doc_table: Phenotype
+    layer: doc_verbatim
+    conflict_ref: C-18   # vs AMELIORATES_TRAIT
+    direction_default: -1
+
+  - type: PHENOTYPICALLY_SUPPORTED_BY
+    from: Phenotype
+    to: Publication
+    doc_table: Phenotype
+    layer: doc_verbatim
+    conflict_ref: C-10
+    direction_default: 0
+
+  - type: SCORED_BY_EVIDENCE
+    from: Phenotype
+    to: Evidence
+    doc_table: Phenotype
+    layer: doc_verbatim
+    direction_default: 0
+
+  # --- Table: "Disease Node" ------------------------------------------------
+  - type: CAUSALLY_DRIVES_DISEASE
+    from: Protein
+    to: Disease
+    doc_table: Disease
+    layer: doc_verbatim
+    direction_default: 1
+
+  - type: GENETICALLY_LINKS_TO
+    from: Gene
+    to: Disease
+    doc_table: Disease
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: MR_VALIDATES_RISK_FOR
+    from: Variant
+    to: Disease
+    doc_table: Disease
+    layer: doc_verbatim
+    conflict_ref: C-17
+    direction_default: 1
+
+  - type: PREDICTS_OUTCOME_IN
+    from: Protein
+    to: Disease
+    doc_table: Disease
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: MECHANISTICALLY_SIMILAR_TO
+    from: Disease
+    to: Disease
+    doc_table: Disease
+    layer: doc_verbatim
+    criteria: "SCAN-27 Strong Indication Overlap >= 0.65"
+    symmetric: true
+    direction_default: 0
+
+  - type: TREATS_INDICATION
+    from: Drug
+    to: Disease
+    doc_table: Disease
+    layer: doc_verbatim
+    conflict_ref: C-19   # vs CLINICALLY_TREATS
+    direction_default: -1
+
+  - type: LOCALIZES_PATHOLOGY_IN
+    from: Disease
+    to: Tissue
+    doc_table: Disease
+    layer: doc_verbatim
+    conflict_ref: C-15
+    direction_default: 0
+
+  - type: DRIVES_PATHOLOGY
+    from: BiologicalProcess
+    to: Disease
+    doc_table: Disease
+    layer: doc_verbatim
+    conflict_ref: C-01
+    direction_default: 1
+
+  - type: STANDARDIZED_BY_ONTOLOGY
+    from: Disease
+    to: OntologyTerm
+    doc_table: Disease
+    layer: doc_verbatim
+    conflict_ref: C-12
+    direction_default: 0
+
+  - type: DISEASE_EVIDENCED_BY
+    from: Disease
+    to: Publication
+    doc_table: Disease
+    layer: doc_verbatim
+    conflict_ref: C-10
+    direction_default: 0
+
+  # --- Table: "Hypothesis Node" ---------------------------------------------
+  - type: SEMANTICALLY_OVERLAPS_WITH
+    from: SkygenicHypothesis
+    to: SkygenicHypothesis
+    doc_table: Hypothesis
+    layer: doc_verbatim
+    criteria: "SCAN-19 Convergent Signal >= 0.60"
+    symmetric: true
+    direction_default: 0
+
+  - type: GOVERNED_BY_LIFECYCLE_STATE
+    from: SkygenicHypothesis
+    to: LifecycleState
+    doc_table: Hypothesis
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: TRACED_THROUGH_PATHWAY
+    from: SkygenicHypothesis
+    to: ReasoningChain
+    doc_table: Hypothesis
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: PRIORITIZES_THERAPEUTIC_TARGET
+    from: SkygenicHypothesis
+    to: Protein
+    doc_table: Hypothesis
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: SUPERSEDES_VERSION
+    from: SkygenicHypothesis
+    to: HypothesisVersion
+    doc_table: Hypothesis
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: EXPLAINS_CLINICAL_OUTCOME
+    from: SkygenicHypothesis
+    to: Disease
+    doc_table: Hypothesis
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: EVALUATED_BY_METRICS
+    from: SkygenicHypothesis
+    to: ConfidenceScore
+    doc_table: Hypothesis
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: SUPPORTED_BY_PROVENANCE
+    from: SkygenicHypothesis
+    to: Publication
+    doc_table: Hypothesis
+    layer: doc_verbatim
+    conflict_ref: C-10
+    direction_default: 0
+
+  # --- Table: "Drug Node" ---------------------------------------------------
+  - type: PHARMACOLOGICALLY_ACTIVATES
+    from: Drug
+    to: Protein
+    doc_table: Drug
+    layer: doc_verbatim
+    direction_default: 1
+
+  - type: PHARMACOLOGICALLY_INHIBITS
+    from: Drug
+    to: Protein
+    doc_table: Drug
+    layer: doc_verbatim
+    direction_default: -1
+
+  - type: EXERTS_OFF_TARGET_EFFECT
+    from: Drug
+    to: Protein
+    doc_table: Drug
+    layer: doc_verbatim
+    criteria: "SCAN-28 High Toxicity Risk >= 0.65"
+    direction_default: 0
+
+  - type: CLINICALLY_TREATS
+    from: Drug
+    to: Disease
+    doc_table: Drug
+    layer: doc_verbatim
+    conflict_ref: C-19
+    criteria: "SCAN-29 Translationally Concordant >= 0.65"
+    direction_default: -1
+
+  - type: AMELIORATES_TRAIT
+    from: Drug
+    to: Phenotype
+    doc_table: Drug
+    layer: doc_verbatim
+    conflict_ref: C-18
+    direction_default: -1
+
+  - type: DISTRIBUTED_IN_CONTEXT
+    from: Drug
+    to: Tissue
+    doc_table: Drug
+    layer: doc_verbatim
+    conflict_ref: C-16
+    direction_default: 0
+
+  - type: INCORPORATED_INTO_HYPOTHESIS
+    from: Drug
+    to: SkygenicHypothesis
+    doc_table: Drug
+    layer: doc_verbatim
+    direction_default: 0
+
+  - type: DRUG_EVIDENCED_BY
+    from: Drug
+    to: Publication
+    doc_table: Drug
+    layer: doc_verbatim
+    conflict_ref: C-10
+    direction_default: 0
+
+  # ===========================================================================
+  # EXTENSION LAYER RELATIONSHIPS
+  # Not in the Nodes doc. Each is forced by a named primitive or a scan that
+  # cannot execute without it. These are ADDITIONS, not conflict resolutions.
+  # ===========================================================================
+
+  - type: ENCODES
+    from: Gene
+    to: Protein
+    layer: extension
+    gap_ref: G-01
+    forced_by: "No Gene->Protein edge exists anywhere in the Nodes doc. Without it
+                the variant->gene->protein->disease chain is severed, SCAN-24
+                (Target Prioritization, scope Protein) cannot reach gene-level
+                evidence, and SCAN-18's pQTL/eQTL results cannot be reconciled."
+    direction_default: 1
+
+  - type: PROTEIN_INTERACTS_WITH
+    from: Protein
+    to: Protein
+    layer: extension
+    gap_ref: G-02
+    forced_by: "Part 1 names STRING as the source for protein-protein interaction
+                (INTERACTS_WITH / PREDICTED_TO_INTERACT_WITH over Protein), but
+                Part 2's per-node tables only define these Gene->Gene. Named
+                distinctly to avoid silently overloading the Gene-scoped type."
+    symmetric: true
+    direction_default: 0
+
+  - type: PROTEIN_PARTICIPATES_IN
+    from: Protein
+    to: Pathway
+    layer: extension
+    gap_ref: G-03
+    forced_by: "Part 1 maps Reactome to Protein/ProteinComplex -> Pathway via
+                PARTICIPATES_IN / CONSTITUTES_PATHWAY, but Part 2 defines
+                PARTICIPATES_IN only as Gene->Pathway."
+    direction_default: 0
+
+  - type: MAPS_TO_LOCUS
+    from: Variant
+    to: Gene
+    layer: extension
+    gap_ref: G-04
+    forced_by: "PRIM_G01 verbatim: 'This node must connect to standard Gene nodes
+                via a localized maps_to_locus edge type.'"
+    direction_default: 0
+
+  - type: EVIDENCED_BY_ASSERTION
+    from: Evidence
+    to: Assertion
+    layer: extension
+    gap_ref: G-05
+    forced_by: "PRIM_E15 get_edge_provenance returns assertion_ids; PRIM_S17
+                promote_assertion_to_edge requires the assertion->edge lineage."
+    direction_default: 0
+
+  - type: DERIVED_FROM_DATASET
+    from: Assertion
+    to: Dataset
+    layer: extension
+    gap_ref: G-05
+    forced_by: "PRIM_E13 get_edges_by_dataset, PRIM_T17
+                get_affected_subgraph_for_dataset (2-hop recompute trigger)."
+    direction_default: 0
+
+  - type: MEASURED_IN_COHORT
+    from: Dataset
+    to: Cohort
+    layer: extension
+    gap_ref: G-06
+    forced_by: "PRIM_N10 compute_cohort_separation_for_node needs disease vs
+                control cohort partitions reachable from the evidence."
+    direction_default: 0
+
+  - type: OBSERVED_IN_CELL_TYPE
+    from: Evidence
+    to: CellType
+    layer: extension
+    gap_ref: G-07
+    forced_by: "source_registry CELL_TYPE entity type; ONC_05 compute_TME_score,
+                IMM_01 compute_immune_infiltration."
+    direction_default: 0
+
+  - type: HAS_VERSION
+    from: SkygenicHypothesis
+    to: HypothesisVersion
+    layer: extension
+    gap_ref: G-08
+    forced_by: "SUPERSEDES_VERSION alone gives no ordered history. PRIM_R08
+                compute_stability_score needs the last min(5, N-1) entries and
+                PRIM_S09 write_evaluation_history_entry is append-only."
+    direction_default: 1
+
+  - type: SCOPED_TO_STATE
+    from: SkygenicHypothesis
+    to: BiologicalState
+    layer: extension
+    gap_ref: G-09
+    forced_by: "PRIM_S21 link_hypothesis_to_state — 'Associates with
+                BiologicalState. Triggers initial MC via S06.'"
+    direction_default: 0
+
+  - type: HYPOTHESIS_INCLUDES_NODE
+    from: SkygenicHypothesis
+    to: Gene
+    also_to: [Protein, Pathway, Disease, Variant, BiologicalProcess, Drug, Phenotype]
+    layer: extension
+    gap_ref: G-10
+    forced_by: "PRIM_T09 extract_hypothesis_subgraph needs target_nodes and
+                outcome_nodes membership. Part 1 removed the generic hub-and-spoke
+                hypothesis edges but left no typed replacement for subgraph scoping."
+    properties:
+      role: {type: string, enum: [target, outcome, expected_edge_endpoint, context]}
+    direction_default: 0
+
+  - type: SCAN_RESULT_FOR
+    from: ScanResult
+    to: SkygenicHypothesis
+    layer: extension
+    gap_ref: G-11
+    forced_by: "PRIM_S10 persist_scan_result."
+    direction_default: 0
+
+# -----------------------------------------------------------------------------
+# CONSTRAINTS / INDEXES
+# -----------------------------------------------------------------------------
+constraints:
+  unique_keys: auto           # one uniqueness constraint per node label `key`
+  extra_indexes:
+    - {label: Gene,      property: symbol}
+    - {label: Disease,   property: biological_domain}
+    - {label: Protein,   property: gene_symbol}
+    - {label: Evidence,  property: modality}
+    - {label: Publication, property: publication_year}
+    - {label: Publication, property: source_type}
+    - {label: Variant,   property: chromosome}
+    - {label: SkygenicHypothesis, property: biological_domain}
