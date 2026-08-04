@@ -1,0 +1,1414 @@
+{
+ "checked_at": "2026-08-04T08:48:27.191313+00:00",
+ "refresh": true,
+ "summary": {
+  "OK": 26,
+  "EMPTY": 0,
+  "UNREACHABLE": 0,
+  "FAIL": 0,
+  "SKIP": 7
+ },
+ "results": {
+  "ncbi_gene": {
+   "status": "OK",
+   "detail": "14 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "ncbigene",
+   "id_fields_found": [
+    "ncbi_gene_id"
+   ],
+   "record_count": 14,
+   "seconds": 0.96,
+   "payload": {
+    "ncbi_gene_id": "7157",
+    "symbol": "TP53",
+    "name": "tumor protein p53",
+    "summary": "This gene encodes a tumor suppressor protein containing transcriptional activation, DNA binding, and oligomerization domains. The encoded protein responds to diverse cellular stresses to regulate expression of target genes, thereby inducing cell cycle arrest, apoptosis, senescence, DNA repair, or changes in metabolism. Mutations in this gene are associated with a variety of human cancers, includin... [774 chars]",
+    "chromosome": "17",
+    "map_location": "17p13.1",
+    "synonyms": [
+     "BCC7",
+     "BMFS5",
+     "LFS1",
+     "... 2 more records omitted"
+    ],
+    "gene_type": "genomic",
+    "taxon_id": 9606,
+    "chr_accession": "NC_000017.11",
+    "start": 7687489,
+    "end": 7668420,
+    "_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=gene&id=7157&retmode=json",
+    "_retrieved_at": "2026-08-04 08:48:02.879417+00:00"
+   },
+   "name": "NCBI Gene",
+   "family": "sequence_annotation"
+  },
+  "ensembl": {
+   "status": "OK",
+   "detail": "9 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "ensembl",
+   "id_fields_found": [
+    "ensembl_id"
+   ],
+   "record_count": 9,
+   "seconds": 0.65,
+   "payload": {
+    "ensembl_id": "ENSG00000141510",
+    "biotype": "protein_coding",
+    "chromosome": "17",
+    "start": 7661779,
+    "end": 7687546,
+    "strand": -1,
+    "description": "tumor protein p53 [Source:HGNC Symbol;Acc:HGNC:11998]",
+    "_url": "https://rest.ensembl.org/lookup/symbol/homo_sapiens/TP53?content-type=application%2Fjson",
+    "_retrieved_at": "2026-08-04 08:48:03.534041+00:00"
+   },
+   "name": "Ensembl",
+   "family": "sequence_annotation"
+  },
+  "hgnc": {
+   "status": "OK",
+   "detail": "11 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "hgnc",
+   "id_fields_found": [
+    "ensembl_id",
+    "hgnc_id",
+    "ncbi_gene_id"
+   ],
+   "record_count": 11,
+   "seconds": 0.74,
+   "payload": {
+    "hgnc_id": "HGNC:11998",
+    "symbol": "TP53",
+    "name": "tumor protein p53",
+    "ensembl_id": "ENSG00000141510",
+    "ncbi_gene_id": "7157",
+    "chromosome": "17p13.1",
+    "biotype": "gene with protein product",
+    "synonyms": [
+     "p53",
+     "LFS1"
+    ],
+    "uniprot_ids": [
+     "P04637"
+    ],
+    "_url": "https://rest.genenames.org/fetch/symbol/TP53",
+    "_retrieved_at": "2026-08-04 08:48:04.273053+00:00"
+   },
+   "name": "HGNC",
+   "family": "sequence_annotation"
+  },
+  "uniprotkb": {
+   "status": "OK",
+   "detail": "10 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "uniprot",
+   "id_fields_found": [
+    "gene_symbol",
+    "protein_id",
+    "uniprot_id"
+   ],
+   "record_count": 10,
+   "seconds": 0.0,
+   "payload": {
+    "protein_id": "P04637",
+    "uniprot_id": "P53_HUMAN",
+    "name": "Cellular tumor antigen p53",
+    "gene_symbol": "TP53",
+    "length_aa": 393,
+    "reviewed": true,
+    "pdb_refs": [
+     "1A1U",
+     "1AIE",
+     "1C26",
+     "... 17 more records omitted"
+    ],
+    "synonyms": [
+     "Antigen NY-CO-13",
+     "Phosphoprotein p53",
+     "Tumor suppressor p53",
+     "... 1 more records omitted"
+    ],
+    "_url": "https://rest.uniprot.org/uniprotkb/search?query=gene_exact%3ATP53+AND+organism_id%3A9606+AND+reviewed%3Atrue&format=json&size=1&fields=accession%2Cid%2Cprotein_name%2Cgene_primary%2Cgene_synonym%2Clength%2Cxref_pdb%2Ccc_subcellular_location",
+    "_retrieved_at": "2026-08-03 16:57:46.892520+00:00"
+   },
+   "name": "UniProtKB",
+   "family": "sequence_annotation"
+  },
+  "rcsb_pdb": {
+   "status": "OK",
+   "detail": "14 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "pdb",
+   "id_fields_found": [
+    "structure_id"
+   ],
+   "record_count": 14,
+   "seconds": 1.03,
+   "payload": {
+    "structure_id": "1TUP",
+    "title": "TUMOR SUPPRESSOR P53 COMPLEXED WITH DNA",
+    "experimental_methods": [
+     "X-RAY DIFFRACTION"
+    ],
+    "primary_method": "X-ray",
+    "resolution_a": 2.2,
+    "polymer_entity_count": 3,
+    "ligand_components": [
+     "ZN"
+    ],
+    "molecular_weight_kda": 86.84,
+    "deposited_at": "1995-07-11T00:00:00.000+00:00",
+    "released_at": "1995-07-11T00:00:00.000+00:00",
+    "revised_at": "2024-02-14T00:00:00.000+00:00",
+    "status": "REL",
+    "_url": "https://data.rcsb.org/rest/v1/core/entry/1TUP",
+    "_retrieved_at": "2026-08-04 08:48:05.301659+00:00"
+   },
+   "name": "RCSB PDB",
+   "family": "sequence_annotation"
+  },
+  "pubchem": {
+   "status": "OK",
+   "detail": "10 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "pubchem.compound",
+   "id_fields_found": [
+    "pubchem_cid"
+   ],
+   "record_count": 10,
+   "seconds": 1.19,
+   "payload": {
+    "pubchem_cid": "2244",
+    "name": "2-acetyloxybenzoic acid",
+    "molecular_formula": "C9H8O4",
+    "molecular_weight": 180.16,
+    "smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+    "inchi": "InChI=1S/C9H8O4/c1-6(10)13-8-5-3-2-4-7(8)9(11)12/h2-5H,1H3,(H,11,12)",
+    "inchikey": "BSYNRYMUTXBXSQ-UHFFFAOYSA-N",
+    "xlogp": 1.2,
+    "_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/aspirin/property/MolecularFormula,MolecularWeight,CanonicalSMILES,InChI,InChIKey,IUPACName,XLogP/JSON",
+    "_retrieved_at": "2026-08-04 08:48:06.493438+00:00"
+   },
+   "name": "PubChem",
+   "family": "chemical_drug"
+  },
+  "chebi": {
+   "status": "OK",
+   "detail": "13 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "chebi",
+   "id_fields_found": [
+    "term_id"
+   ],
+   "record_count": 13,
+   "seconds": 0.0,
+   "payload": {
+    "term_id": "CHEBI:15365",
+    "name": "acetylsalicylic acid",
+    "ontology": "CHEBI",
+    "namespace": "chebi_ontology",
+    "definition": "A member of the class of benzoic acids that is salicylic acid in which the hydrogen that is attached to the phenolic hydroxy group has been replaced by an acetoxy group. A non-steroidal anti-inflammatory drug with cyclooxygenase inhibitor activity.",
+    "iri": "http://purl.obolibrary.org/obo/CHEBI_15365",
+    "is_obsolete": false,
+    "synonyms": [
+     "2-(ACETYLOXY)BENZOIC ACID",
+     "2-(ACETYLOXY)BENZOIC ACID",
+     "2-(acetyloxy)benzoic acid",
+     "... 18 more records omitted"
+    ],
+    "xrefs": {
+     "CAS": [
+      "50-78-2"
+     ],
+     "DRUGBANK": [
+      "DB00945"
+     ],
+     "DRUGCENTRAL": [
+      "74"
+     ],
+     "GMELIN": [
+      "218864"
+     ],
+     "HMDB": [
+      "HMDB0001879"
+     ],
+     "KEGG.COMPOUND": [
+      "C01405"
+     ],
+     "KEGG.DRUG": [
+      "D00109"
+     ],
+     "LINCS.SMALLMOLECULE": [
+      "LSM-5288"
+     ],
+     "METACYC.COMPOUND": [
+      "CPD-524"
+     ],
+     "PDB-CCD": [
+      "AIN"
+     ],
+     "PUBMED": [
+      "11203441",
+      "11402787",
+      "11597554",
+      "... 15 more records omitted"
+     ],
+     "REAXYS": [
+      "779271"
+     ],
+     "WIKIPEDIA.EN": [
+      "Aspirin"
+     ]
+    },
+    "omim_ids": [],
+    "_url": "https://www.ebi.ac.uk/ols4/api/ontologies/chebi/terms?short_form=CHEBI_15365",
+    "_retrieved_at": "2026-08-03 16:57:50.504816+00:00",
+    "entity_type": "Chemical"
+   },
+   "name": "ChEBI",
+   "family": "chemical_drug"
+  },
+  "drugbank": {
+   "status": "SKIP",
+   "detail": "needs licence + $DRUGBANK_XML",
+   "gate": "licensed",
+   "failed_requests": 0,
+   "expected_prefix": "drugbank",
+   "record_count": 0,
+   "seconds": 0.0,
+   "payload": null,
+   "name": "DrugBank",
+   "family": "chemical_drug"
+  },
+  "chembl": {
+   "status": "OK",
+   "detail": "10 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "chembl.compound",
+   "id_fields_found": [
+    "drug_id"
+   ],
+   "record_count": 10,
+   "seconds": 0.78,
+   "payload": {
+    "drug_id": "CHEMBL25",
+    "name": "ASPIRIN",
+    "max_phase": 4.0,
+    "molecule_type": "Small molecule",
+    "first_approval": 1950,
+    "smiles": "CC(=O)Oc1ccccc1C(=O)O",
+    "inchikey": "BSYNRYMUTXBXSQ-UHFFFAOYSA-N",
+    "mw": 180.16,
+    "_url": "https://www.ebi.ac.uk/chembl/api/data/molecule/CHEMBL25.json",
+    "_retrieved_at": "2026-08-04 08:48:07.278341+00:00"
+   },
+   "name": "ChEMBL",
+   "family": "chemical_drug"
+  },
+  "mondo": {
+   "status": "OK",
+   "detail": "12 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "mondo",
+   "id_fields_found": [
+    "term_id"
+   ],
+   "record_count": 12,
+   "seconds": 0.0,
+   "payload": {
+    "term_id": "MONDO:0005068",
+    "name": "myocardial infarction",
+    "ontology": "MONDO",
+    "namespace": null,
+    "definition": "Gross necrosis of the myocardium, as a result of interruption of the blood supply to the area, as in coronary thrombosis.",
+    "iri": "http://purl.obolibrary.org/obo/MONDO_0005068",
+    "is_obsolete": false,
+    "synonyms": [
+     "MI, myocardial infarction",
+     "infarction (MI), myocardial",
+     "myocardial infarction, (MI)",
+     "... 5 more records omitted"
+    ],
+    "xrefs": {
+     "DOID": [
+      "5844"
+     ],
+     "EFO": [
+      "0000612"
+     ],
+     "HP": [
+      "0001658"
+     ],
+     "ICD10CM": [
+      "I21"
+     ],
+     "MEDGEN": [
+      "10150"
+     ],
+     "MESH": [
+      "D009203"
+     ],
+     "NANDO": [
+      "2200248"
+     ],
+     "NCIT": [
+      "C27996"
+     ],
+     "SCTID": [
+      "22298006"
+     ],
+     "UMLS": [
+      "C0027051"
+     ]
+    },
+    "omim_ids": [],
+    "_url": "https://www.ebi.ac.uk/ols4/api/ontologies/mondo/terms?short_form=MONDO_0005068",
+    "_retrieved_at": "2026-08-03 16:57:52.787140+00:00"
+   },
+   "name": "MONDO",
+   "family": "disease_phenotype"
+  },
+  "omim": {
+   "status": "SKIP",
+   "detail": "needs $OMIM_API_KEY",
+   "gate": "api_key",
+   "failed_requests": 0,
+   "expected_prefix": "omim",
+   "record_count": 0,
+   "seconds": 0.0,
+   "payload": null,
+   "name": "OMIM",
+   "family": "disease_phenotype"
+  },
+  "disgenet": {
+   "status": "SKIP",
+   "detail": "needs $DISGENET_API_KEY",
+   "gate": "api_key",
+   "failed_requests": 0,
+   "expected_prefix": "umls",
+   "record_count": 0,
+   "seconds": 0.0,
+   "payload": null,
+   "name": "DisGeNET",
+   "family": "disease_phenotype"
+  },
+  "hpo": {
+   "status": "OK",
+   "detail": "6 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "hp",
+   "id_fields_found": [],
+   "record_count": 6,
+   "seconds": 0.74,
+   "payload": {
+    "phenotype_id": "HP:0001631",
+    "name": "Atrial septal defect",
+    "definition": "Atrial septal defect (ASD) is a congenital abnormality of the interatrial septum that enables blood flow between the left and right atria via the interatrial septum.",
+    "synonyms": [
+     "ASD",
+     "An opening in the wall separating the top two chambers of the heart",
+     "Atria septal defect",
+     "... 4 more records omitted"
+    ],
+    "_url": "https://ontology.jax.org/api/hp/terms/HP%3A0001631",
+    "_retrieved_at": "2026-08-04 08:48:08.022551+00:00"
+   },
+   "name": "HPO",
+   "family": "disease_phenotype"
+  },
+  "gwas_catalog": {
+   "status": "OK",
+   "detail": "3 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "dbsnp",
+   "id_fields_found": [
+    "gene_symbol",
+    "variant_id"
+   ],
+   "record_count": 3,
+   "seconds": 1.31,
+   "payload": [
+    {
+     "variant_id": "rs55662831",
+     "chromosome": "17",
+     "base_position": 7726875,
+     "consequence": "intron_variant",
+     "cytogenetic_region": "17p13.1",
+     "gene_symbol": "TP53",
+     "_url": "https://www.ebi.ac.uk/gwas/rest/api/singleNucleotidePolymorphisms/search/findByGene?geneName=TP53&size=3",
+     "_retrieved_at": "2026-08-04 08:48:09.334608+00:00"
+    },
+    {
+     "variant_id": "rs55662831",
+     "chromosome": "17",
+     "base_position": 7726875,
+     "consequence": "intron_variant",
+     "cytogenetic_region": "17p13.1",
+     "gene_symbol": "TP53",
+     "_url": "https://www.ebi.ac.uk/gwas/rest/api/singleNucleotidePolymorphisms/search/findByGene?geneName=TP53&size=3",
+     "_retrieved_at": "2026-08-04 08:48:09.334608+00:00"
+    },
+    {
+     "variant_id": "rs7342954",
+     "chromosome": "17",
+     "base_position": 7643842,
+     "consequence": "intergenic_variant",
+     "cytogenetic_region": "17p13.1",
+     "gene_symbol": "TP53",
+     "_url": "https://www.ebi.ac.uk/gwas/rest/api/singleNucleotidePolymorphisms/search/findByGene?geneName=TP53&size=3",
+     "_retrieved_at": "2026-08-04 08:48:09.334608+00:00"
+    }
+   ],
+   "name": "GWAS Catalog",
+   "family": "disease_phenotype"
+  },
+  "reactome": {
+   "status": "OK",
+   "detail": "46 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "reactome",
+   "id_fields_found": [
+    "pathway_id"
+   ],
+   "record_count": 46,
+   "seconds": 2.41,
+   "payload": [
+    {
+     "pathway_id": "R-HSA-111448",
+     "name": "Activation of NOXA and translocation to mitochondria",
+     "source_db": "reactome",
+     "species_name": "Homo sapiens",
+     "is_in_disease": false,
+     "_url": "https://reactome.org/ContentService/data/mapping/UniProt/P04637/pathways?species=9606",
+     "_retrieved_at": "2026-08-04 08:48:11.750292+00:00"
+    },
+    {
+     "pathway_id": "R-HSA-139915",
+     "name": "Activation of PUMA and translocation to mitochondria",
+     "source_db": "reactome",
+     "species_name": "Homo sapiens",
+     "is_in_disease": false,
+     "_url": "https://reactome.org/ContentService/data/mapping/UniProt/P04637/pathways?species=9606",
+     "_retrieved_at": "2026-08-04 08:48:11.750292+00:00"
+    },
+    {
+     "pathway_id": "R-HSA-1912408",
+     "name": "Pre-NOTCH Transcription and Translation",
+     "source_db": "reactome",
+     "species_name": "Homo sapiens",
+     "is_in_disease": false,
+     "_url": "https://reactome.org/ContentService/data/mapping/UniProt/P04637/pathways?species=9606",
+     "_retrieved_at": "2026-08-04 08:48:11.750292+00:00"
+    },
+    "... 43 more records omitted"
+   ],
+   "name": "Reactome",
+   "family": "pathways_interactions"
+  },
+  "kegg": {
+   "status": "OK",
+   "detail": "9 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "kegg.pathway",
+   "id_fields_found": [
+    "pathway_id"
+   ],
+   "record_count": 9,
+   "seconds": 1.12,
+   "payload": {
+    "pathway_id": "KEGG:hsa04115",
+    "name": "p53 signaling pathway",
+    "description": "p53 activation is induced by a number of stress signals, including DNA damage, oxidative stress and activated oncogenes. The p53 protein is employed as a transcriptional activator of p53-regulated genes. This results in three major outputs; cell cycle arrest, cellular senescence or apoptosis. Other p53-regulated gene functions communicate with adjacent cells, repair the damaged DNA or set up posit... [568 chars]",
+    "classes": [
+     "Cellular Processes; Cell growth and death"
+    ],
+    "source_db": "kegg",
+    "ncbi_gene_ids": [
+     "1017",
+     "1019",
+     "1021",
+     "... 72 more records omitted"
+    ],
+    "drug_ids": [
+     "D00341",
+     "D08887",
+     "D09604",
+     "... 18 more records omitted"
+    ],
+    "_url": "https://rest.kegg.jp/get/hsa04115",
+    "_retrieved_at": "2026-08-04 08:48:12.871333+00:00"
+   },
+   "name": "KEGG",
+   "family": "pathways_interactions"
+  },
+  "wikipathways": {
+   "status": "OK",
+   "detail": "1 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "wikipathways",
+   "id_fields_found": [
+    "pathway_id"
+   ],
+   "record_count": 1,
+   "seconds": 1.1,
+   "payload": [
+    {
+     "pathway_id": "WP100",
+     "name": "Glutathione metabolism",
+     "species_name": "Homo sapiens",
+     "revision": "2025-11-07",
+     "authors": "169.230.77.174, MaintBot, Thomas, AlexanderPico, Andra, Egonw, DeSl, Khanspers",
+     "source_db": "wikipathways",
+     "url": "https://www.wikipathways.org/instance/WP100",
+     "_url": "https://www.wikipathways.org/json/getPathwayInfo.json",
+     "_retrieved_at": "2026-08-04 08:48:13.960508+00:00"
+    }
+   ],
+   "name": "WikiPathways",
+   "family": "pathways_interactions"
+  },
+  "corum": {
+   "status": "SKIP",
+   "detail": "needs licence + $CORUM_HUMAN_COMPLEXES",
+   "gate": "licensed",
+   "failed_requests": 0,
+   "expected_prefix": "corum",
+   "record_count": 0,
+   "seconds": 0.0,
+   "payload": null,
+   "name": "CORUM",
+   "family": "pathways_interactions"
+  },
+  "complex_portal": {
+   "status": "OK",
+   "detail": "32 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "complexportal",
+   "id_fields_found": [
+    "complex_id"
+   ],
+   "record_count": 32,
+   "seconds": 1.07,
+   "payload": [
+    {
+     "complex_id": "CPX-6093",
+     "name": "TP53-MDM2-MDM4 transcription regulation complex",
+     "description": "Transcriptional repressor complex, formation of which inhibits the ability of TP53/p53 to induce cell cycle arrest. The mechanism of action is primarily through the ubiquitinylation of p53, a critical step in mediating its degradation by nuclear and cytoplasmic proteasomes, and by directly inhibiting p53 transactivation capacity and by promoting the nuclear export of p53.",
+     "organism": "Homo sapiens",
+     "taxon_id": 9606,
+     "is_predicted": false,
+     "source_db": "complex_portal",
+     "subunits": [
+      {
+       "identifier": "P04637",
+       "name": "TP53",
+       "stoichiometry": null
+      },
+      {
+       "identifier": "Q00987",
+       "name": "MDM2",
+       "stoichiometry": null
+      },
+      {
+       "identifier": "O15151",
+       "name": "MDM4",
+       "stoichiometry": null
+      }
+     ],
+     "_url": "https://www.ebi.ac.uk/intact/complex-ws/search/TP53?format=json&size=3",
+     "_retrieved_at": "2026-08-04 08:48:15.041450+00:00"
+    },
+    {
+     "complex_id": "CPX-900",
+     "name": "SAGA complex, KAT2A variant",
+     "description": "A histone acetyltransferase transcriptional co-activator complex that preferably acetylates histone H3 and possibly H4. Acetyl-CoA-dependent and appears to require the presence of ATP-dependent chromatin remodeling factors to enable its coactivator activity. Recruited to the promoter region by co-operatively binding to factors such as MYC (P01106) and TP53 (P04637). Also has histone H2A and H2B de... [968 chars]",
+     "organism": "Homo sapiens",
+     "taxon_id": 9606,
+     "is_predicted": false,
+     "source_db": "complex_portal",
+     "subunits": [
+      {
+       "identifier": "Q16514",
+       "name": "TAF12",
+       "stoichiometry": null
+      },
+      {
+       "identifier": "CHEBI:27363",
+       "name": "zinc atom",
+       "stoichiometry": null
+      },
+      {
+       "identifier": "O75529",
+       "name": "TAF5L",
+       "stoichiometry": null
+      },
+      "... 18 more records omitted"
+     ],
+     "_url": "https://www.ebi.ac.uk/intact/complex-ws/search/TP53?format=json&size=3",
+     "_retrieved_at": "2026-08-04 08:48:15.041450+00:00"
+    },
+    {
+     "complex_id": "CPX-920",
+     "name": "SAGA complex, KAT2A variant",
+     "description": "A transcriptional co-activator complex that preferably acetylates histone H3 and possibly H4. Acetyl-CoA-dependent and appears to require the presence of ATP-dependent chromatin remodeling factors to enable its coactivator activity. Recruited to the promoter region by co-operatively binding to factors such as Myc (P01108) and Tp53 (P02340). Also has histone H2A and H2B deubiquitinase activity whic... [942 chars]",
+     "organism": "Mus musculus",
+     "taxon_id": 10090,
+     "is_predicted": false,
+     "source_db": "complex_portal",
+     "subunits": [
+      {
+       "identifier": "CHEBI:27363",
+       "name": "zinc atom",
+       "stoichiometry": null
+      },
+      {
+       "identifier": "B0QZW4",
+       "name": "Supt3",
+       "stoichiometry": null
+      },
+      {
+       "identifier": "Q9CZV5",
+       "name": "Supt7l",
+       "stoichiometry": null
+      },
+      "... 18 more records omitted"
+     ],
+     "_url": "https://www.ebi.ac.uk/intact/complex-ws/search/TP53?format=json&size=3",
+     "_retrieved_at": "2026-08-04 08:48:15.041450+00:00"
+    },
+    "... 29 more records omitted"
+   ],
+   "name": "Complex Portal",
+   "family": "pathways_interactions"
+  },
+  "string": {
+   "status": "OK",
+   "detail": "1 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "uniprot",
+   "id_fields_found": [],
+   "record_count": 1,
+   "seconds": 0.66,
+   "payload": [
+    {
+     "a": "MDM2",
+     "b": "TP53",
+     "ensp_a": "9606.ENSP00000258149",
+     "ensp_b": "9606.ENSP00000269305",
+     "score": 0.999,
+     "experimental": 0.999,
+     "database": 0.9,
+     "textmining": 0.999,
+     "coexpression": 0.116,
+     "_url": "https://string-db.org/api/json/network?identifiers=TP53%0DMDM2&species=9606",
+     "_retrieved_at": "2026-08-04 08:48:15.710327+00:00"
+    }
+   ],
+   "name": "STRING",
+   "family": "pathways_interactions"
+  },
+  "opentargets": {
+   "status": "OK",
+   "detail": "8 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "ensembl",
+   "id_fields_found": [
+    "ensembl_id"
+   ],
+   "record_count": 8,
+   "seconds": 0.93,
+   "payload": {
+    "ensembl_id": "ENSG00000141510",
+    "symbol": "TP53",
+    "biotype": "protein_coding",
+    "diseases": [
+     {
+      "disease_id": "MONDO:0018875",
+      "name": "Li-Fraumeni syndrome",
+      "score": 0.8763216350824885,
+      "datatype_scores": {
+       "genetic_literature": 0.8539007869518103,
+       "literature": 0.37239946930491674,
+       "genetic_association": 0.9564326867319108,
+       "somatic_mutation": 0.4377101742803672,
+       "animal_model": 0.6372497734413094
+      },
+      "therapeutic_areas": [
+       "nervous system disorder",
+       "genetic, familial or congenital disease",
+       "cancer or benign tumor"
+      ]
+     },
+     {
+      "disease_id": "MONDO:0007256",
+      "name": "hepatocellular carcinoma",
+      "score": 0.7969945948908966,
+      "datatype_scores": {
+       "genetic_literature": 0.607930797611621,
+       "literature": 0.996521540461086,
+       "genetic_association": 0.9161436221556352,
+       "somatic_mutation": 0.8546930263671441,
+       "animal_model": 0.614403007073547
+      },
+      "therapeutic_areas": [
+       "hepatobiliary disorder",
+       "endocrine system disorder",
+       "gastrointestinal disease",
+       "... 1 more records omitted"
+      ]
+     },
+     {
+      "disease_id": "MONDO:0010150",
+      "name": "head and neck squamous cell carcinoma",
+      "score": 0.7771072193728089,
+      "datatype_scores": {
+       "clinical": 0.12158615952232422,
+       "genetic_literature": 0.607930797611621,
+       "literature": 0.9871901052498917,
+       "genetic_association": 0.837452876104994,
+       "somatic_mutation": 0.8687764418823478
+      },
+      "therapeutic_areas": [
+       "cancer or benign tumor"
+      ]
+     }
+    ],
+    "drugs": [
+     {
+      "drug_id": "CHEMBL4297574",
+      "name": "TEPRASIRAN",
+      "drug_type": "Oligonucleotide",
+      "max_clinical_stage": "PHASE_3",
+      "mechanism_of_action": "p53 mRNA RNAi inhibitor",
+      "action_type": "RNAI INHIBITOR",
+      "direction": -1,
+      "indications": [
+       {
+        "disease_id": "MONDO:0002286",
+        "name": "renal artery disease"
+       }
+      ]
+     },
+     {
+      "drug_id": "CHEMBL3653256",
+      "name": "SIREMADLIN",
+      "drug_type": "Small molecule",
+      "max_clinical_stage": "PHASE_2",
+      "mechanism_of_action": "Tumour suppressor p53/oncoprotein Mdm2 inhibitor",
+      "action_type": "INHIBITOR",
+      "direction": -1,
+      "indications": [
+       {
+        "disease_id": "MONDO:0024880",
+        "name": "metastatic malignant neoplasm"
+       },
+       {
+        "disease_id": "MONDO:0018874",
+        "name": "acute myeloid leukemia"
+       },
+       {
+        "disease_id": "MONDO:0044903",
+        "name": "myelofibrosis"
+       },
+       "... 8 more records omitted"
+      ]
+     },
+     {
+      "drug_id": "CHEMBL2402737",
+      "name": "IDASANUTLIN",
+      "drug_type": "Small molecule",
+      "max_clinical_stage": "PHASE_3",
+      "mechanism_of_action": "Tumour suppressor p53/oncoprotein Mdm2 inhibitor",
+      "action_type": "INHIBITOR",
+      "direction": -1,
+      "indications": [
+       {
+        "disease_id": "MONDO:0015667",
+        "name": "acute myeloid leukemia by FAB classification"
+       },
+       {
+        "disease_id": "MONDO:0018874",
+        "name": "acute myeloid leukemia"
+       },
+       {
+        "disease_id": "MONDO:0009891",
+        "name": "acquired polycythemia vera"
+       },
+       "... 14 more records omitted"
+      ]
+     },
+     "... 6 more records omitted"
+    ],
+    "homologues": [
+     {
+      "target_gene_id": "ENSG00000078900",
+      "target_symbol": "TP73",
+      "species_id": "9606",
+      "species_name": "Human",
+      "homology_type": "within_species_paralog",
+      "is_ortholog": false,
+      "query_pct_identity": 43.5115,
+      "target_pct_identity": 26.8868,
+      "is_high_confidence": true
+     },
+     {
+      "target_gene_id": "ENSG00000073282",
+      "target_symbol": "TP63",
+      "species_id": "9606",
+      "species_name": "Human",
+      "homology_type": "within_species_paralog",
+      "is_ortholog": false,
+      "query_pct_identity": 40.458,
+      "target_pct_identity": 23.3824,
+      "is_high_confidence": true
+     },
+     {
+      "target_gene_id": "ENSPTRG00000008703",
+      "target_symbol": "TP53",
+      "species_id": "9598",
+      "species_name": "Chimpanzee",
+      "homology_type": "ortholog_one2one",
+      "is_ortholog": true,
+      "query_pct_identity": 100,
+      "target_pct_identity": 100,
+      "is_high_confidence": true
+     },
+     "... 11 more records omitted"
+    ],
+    "_url": "https://api.platform.opentargets.org/api/v4/graphql",
+    "_retrieved_at": "2026-08-04 08:48:16.643789+00:00"
+   },
+   "name": "Open Targets",
+   "family": "pathways_interactions"
+  },
+  "clinvar": {
+   "status": "OK",
+   "detail": "3 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "clinvar",
+   "id_fields_found": [
+    "variant_id"
+   ],
+   "record_count": 3,
+   "seconds": 1.83,
+   "payload": [
+    {
+     "variant_id": "VCV004876137",
+     "clinvar_uid": "4876137",
+     "name": "NM_007294.4(BRCA1):c.451del (p.Ser151fs)",
+     "variant_type": "Deletion",
+     "clinical_significance": "Pathogenic",
+     "review_status": "criteria provided, single submitter",
+     "review_stars": 1,
+     "last_evaluated": "2026/05/12 00:00",
+     "chromosome": "17",
+     "position": 43099871,
+     "assembly": "GRCh38",
+     "cdna_change": "c.451del",
+     "gene_symbols": [
+      "BRCA1"
+     ],
+     "traits": [
+      "Breast-ovarian cancer, familial, susceptibility to, 1"
+     ],
+     "source_db": "clinvar",
+     "_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=clinvar&id=4876137%2C4876134%2C4876067&retmode=json",
+     "_retrieved_at": "2026-08-04 08:48:18.478730+00:00"
+    },
+    {
+     "variant_id": "VCV004876134",
+     "clinvar_uid": "4876134",
+     "name": "NM_007294.4(BRCA1):c.661G>A (p.Ala221Thr)",
+     "variant_type": "single nucleotide variant",
+     "clinical_significance": "Likely benign",
+     "review_status": "criteria provided, single submitter",
+     "review_stars": 1,
+     "last_evaluated": "2026/05/06 00:00",
+     "chromosome": "17",
+     "position": 43095855,
+     "assembly": "GRCh38",
+     "cdna_change": "c.661G>A",
+     "gene_symbols": [
+      "BRCA1"
+     ],
+     "traits": [
+      "Breast-ovarian cancer, familial, susceptibility to, 1"
+     ],
+     "source_db": "clinvar",
+     "_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=clinvar&id=4876137%2C4876134%2C4876067&retmode=json",
+     "_retrieved_at": "2026-08-04 08:48:18.478730+00:00"
+    },
+    {
+     "variant_id": "VCV004876067",
+     "clinvar_uid": "4876067",
+     "name": "NM_007294.4(BRCA1):c.1014_1015delinsT (p.Lys338fs)",
+     "variant_type": "Indel",
+     "clinical_significance": "Pathogenic",
+     "review_status": "criteria provided, single submitter",
+     "review_stars": 1,
+     "last_evaluated": "2026/06/30 00:00",
+     "chromosome": "17",
+     "position": 43094516,
+     "assembly": "GRCh38",
+     "cdna_change": "c.1014_1015delinsT",
+     "gene_symbols": [
+      "BRCA1"
+     ],
+     "traits": [
+      "Breast-ovarian cancer, familial, susceptibility to, 1"
+     ],
+     "source_db": "clinvar",
+     "_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=clinvar&id=4876137%2C4876134%2C4876067&retmode=json",
+     "_retrieved_at": "2026-08-04 08:48:18.478730+00:00"
+    }
+   ],
+   "name": "ClinVar",
+   "family": "variants"
+  },
+  "dbsnp": {
+   "status": "OK",
+   "detail": "13 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "dbsnp",
+   "id_fields_found": [
+    "variant_id"
+   ],
+   "record_count": 13,
+   "seconds": 1.09,
+   "payload": {
+    "variant_id": "rs1042522",
+    "variant_type": "snv",
+    "reference_allele": "G",
+    "alternate_allele": "A",
+    "position": 7676154,
+    "refseq_accession": "NC_000017.11",
+    "hgvs": [
+     "NC_000017.11:g.7676154=",
+     "NC_000017.11:g.7676154G>A",
+     "NC_000017.11:g.7676154G>C",
+     "... 1 more records omitted"
+    ],
+    "citation_pmids": [
+     "1975675",
+     "1999338",
+     "8242752",
+     "... 17 more records omitted"
+    ],
+    "created_at": "2000-10-5T19:10Z",
+    "updated_at": "2024-11-3T19:10Z",
+    "source_db": "dbsnp",
+    "_url": "https://api.ncbi.nlm.nih.gov/variation/v0/refsnp/1042522",
+    "_retrieved_at": "2026-08-04 08:48:19.564376+00:00"
+   },
+   "name": "dbSNP",
+   "family": "variants"
+  },
+  "gnomad": {
+   "status": "OK",
+   "detail": "12 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "gnomad",
+   "id_fields_found": [
+    "variant_id"
+   ],
+   "record_count": 12,
+   "seconds": 0.96,
+   "payload": {
+    "variant_id": "17-7676154-G-A",
+    "rs_ids": [
+     "rs1042522"
+    ],
+    "allele_count": 1,
+    "allele_number": 1461570,
+    "allele_frequency": 6.841957620914496e-07,
+    "exome_af": 6.841957620914496e-07,
+    "genome_af": null,
+    "consequences": [
+     {
+      "gene_symbol": "TP53",
+      "consequence": "intron_variant",
+      "hgvsc": "c.-21-918C>T",
+      "hgvsp": null
+     },
+     {
+      "gene_symbol": "TP53",
+      "consequence": "missense_variant",
+      "hgvsc": "c.215C>T",
+      "hgvsp": "p.Pro72Leu"
+     },
+     {
+      "gene_symbol": "TP53",
+      "consequence": "intron_variant",
+      "hgvsc": "c.96+228C>T",
+      "hgvsp": null
+     },
+     "... 2 more records omitted"
+    ],
+    "dataset": "gnomad_r4",
+    "source_db": "gnomad",
+    "_url": "https://gnomad.broadinstitute.org/api",
+    "_retrieved_at": "2026-08-04 08:48:20.531081+00:00"
+   },
+   "name": "gnomAD",
+   "family": "variants"
+  },
+  "cosmic": {
+   "status": "SKIP",
+   "detail": "needs licence + $COSMIC_MUTATIONS_TSV",
+   "gate": "licensed",
+   "failed_requests": 0,
+   "expected_prefix": "cosmic",
+   "record_count": 0,
+   "seconds": 0.0,
+   "payload": null,
+   "name": "COSMIC",
+   "family": "variants"
+  },
+  "pubmed": {
+   "status": "OK",
+   "detail": "3 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "pmid",
+   "id_fields_found": [
+    "doi",
+    "publication_id"
+   ],
+   "record_count": 3,
+   "seconds": 1.99,
+   "payload": [
+    {
+     "publication_id": "PMID:31406302",
+     "title": "Co-occurring genomic alterations in\u00a0non-small-cell lung cancer biology and therapy.",
+     "journal": "Nature reviews. Cancer",
+     "issn": "1474-175X",
+     "publication_year": 2019,
+     "doi": "10.1038/s41568-019-0179-8",
+     "source_type": "peer_reviewed",
+     "is_high_authority": false,
+     "_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=31406302%2C40446626%2C34175504&retmode=json",
+     "_retrieved_at": "2026-08-04 08:48:22.517985+00:00"
+    },
+    {
+     "publication_id": "PMID:40446626",
+     "title": "Nivolumab plus ipilimumab with chemotherapy as first-line treatment of patients with metastatic non-small-cell lung cancer: final, 6-year outcomes from CheckMate 9LA.",
+     "journal": "ESMO open",
+     "issn": null,
+     "publication_year": 2025,
+     "doi": "10.1016/j.esmoop.2025.105123",
+     "source_type": "peer_reviewed",
+     "is_high_authority": false,
+     "_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=31406302%2C40446626%2C34175504&retmode=json",
+     "_retrieved_at": "2026-08-04 08:48:22.517985+00:00"
+    },
+    {
+     "publication_id": "PMID:34175504",
+     "title": "Going beneath the tip of the iceberg. Identifying and understanding EML4-ALK variants and TP53 mutations to optimize treatment of ALK fusion positive (ALK+) NSCLC.",
+     "journal": "Lung cancer (Amsterdam, Netherlands)",
+     "issn": "0169-5002",
+     "publication_year": 2021,
+     "doi": "10.1016/j.lungcan.2021.06.012",
+     "source_type": "peer_reviewed",
+     "is_high_authority": false,
+     "_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=31406302%2C40446626%2C34175504&retmode=json",
+     "_retrieved_at": "2026-08-04 08:48:22.517985+00:00"
+    }
+   ],
+   "name": "PubMed / PMC",
+   "family": "literature"
+  },
+  "europepmc": {
+   "status": "OK",
+   "detail": "3 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "pmid",
+   "id_fields_found": [
+    "doi",
+    "publication_id"
+   ],
+   "record_count": 3,
+   "seconds": 0.84,
+   "payload": [
+    {
+     "publication_id": "PPR:PPR1287395",
+     "title": "STING agonists in combination with epigenetic drugs potentiate ZNFX1-driven inflammatory necroptosis in  <i>TP53</i>  -mutated AML",
+     "journal": null,
+     "publication_year": 2026,
+     "doi": "10.64898/2026.07.27.741029",
+     "pmcid": null,
+     "source": "PPR",
+     "source_type": "preprint",
+     "is_open_access": false,
+     "has_full_text": true,
+     "citation_count": 0,
+     "is_high_authority": false,
+     "_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TP53&format=json&pageSize=3&resultType=core",
+     "_retrieved_at": "2026-08-04 08:48:23.358157+00:00"
+    },
+    {
+     "publication_id": "PMID:42458545",
+     "title": "Correlation of P53 expression and TP53 mutation in stage I lung adenocarcinoma and the predictive value for postoperative recurrence within 5 years.",
+     "journal": "Diagnostic pathology",
+     "publication_year": 2026,
+     "doi": "10.1186/s13000-026-01802-x",
+     "pmcid": null,
+     "source": "MED",
+     "source_type": "peer_reviewed",
+     "is_open_access": false,
+     "has_full_text": true,
+     "citation_count": 0,
+     "is_high_authority": false,
+     "_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TP53&format=json&pageSize=3&resultType=core",
+     "_retrieved_at": "2026-08-04 08:48:23.358157+00:00"
+    },
+    {
+     "publication_id": "PMID:42484901",
+     "title": "Clinical and surveillance outcomes of the TP53 c.1000G\u2009&gt;\u2009C (p.Gly334Arg) variant.",
+     "journal": "Familial cancer",
+     "publication_year": 2026,
+     "doi": "10.1007/s10689-026-00591-y",
+     "pmcid": null,
+     "source": "MED",
+     "source_type": "peer_reviewed",
+     "is_open_access": false,
+     "has_full_text": true,
+     "citation_count": 0,
+     "is_high_authority": false,
+     "_url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TP53&format=json&pageSize=3&resultType=core",
+     "_retrieved_at": "2026-08-04 08:48:23.358157+00:00"
+    }
+   ],
+   "name": "Europe PMC",
+   "family": "literature"
+  },
+  "semantic_scholar": {
+   "status": "OK",
+   "detail": "12 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "doi",
+   "id_fields_found": [
+    "doi",
+    "publication_id"
+   ],
+   "record_count": 12,
+   "seconds": 0.54,
+   "payload": {
+    "publication_id": "PMID:31978945",
+    "s2_paper_id": "fb258b885fd03fcccc9e35e672542453d8eef35f",
+    "title": "A Novel Coronavirus from Patients with Pneumonia in China, 2019",
+    "publication_year": 2020,
+    "journal": "New England Journal of Medicine",
+    "doi": "10.1056/NEJMoa2001017",
+    "citation_count": 24539,
+    "influential_citation_count": 875,
+    "tldr": "Human airway epithelial cells were used to isolate a novel coronavirus, named 2019-nCoV, which formed a clade within the subgenus sarbecovirus, Orthocoronavirinae subfamily, which is the seventh member of the family of coronaviruses that infect humans.",
+    "source_db": "semantic_scholar",
+    "_url": "https://api.semanticscholar.org/graph/v1/paper/PMID:31978945?fields=paperId%2Ctitle%2Cyear%2Cvenue%2CcitationCount%2CinfluentialCitationCount%2CexternalIds%2Ctldr",
+    "_retrieved_at": "2026-08-04 08:48:23.897781+00:00"
+   },
+   "name": "Semantic Scholar",
+   "family": "literature"
+  },
+  "gtex": {
+   "status": "OK",
+   "detail": "54 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "uberon",
+   "id_fields_found": [
+    "gene_symbol"
+   ],
+   "record_count": 54,
+   "seconds": 1.02,
+   "payload": [
+    {
+     "gene_symbol": "TP53",
+     "gencode_id": "ENSG00000141510.16",
+     "tissue": "Adipose_Subcutaneous",
+     "tissue_uberon": "UBERON:0002190",
+     "median_tpm": 22.459,
+     "unit": "TPM",
+     "_url": "https://gtexportal.org/api/v2/expression/medianGeneExpression?gencodeId=ENSG00000141510.16&datasetId=gtex_v8&itemsPerPage=100",
+     "_retrieved_at": "2026-08-04 08:48:24.919138+00:00"
+    },
+    {
+     "gene_symbol": "TP53",
+     "gencode_id": "ENSG00000141510.16",
+     "tissue": "Adipose_Visceral_Omentum",
+     "tissue_uberon": "UBERON:0010414",
+     "median_tpm": 17.8035,
+     "unit": "TPM",
+     "_url": "https://gtexportal.org/api/v2/expression/medianGeneExpression?gencodeId=ENSG00000141510.16&datasetId=gtex_v8&itemsPerPage=100",
+     "_retrieved_at": "2026-08-04 08:48:24.919138+00:00"
+    },
+    {
+     "gene_symbol": "TP53",
+     "gencode_id": "ENSG00000141510.16",
+     "tissue": "Adrenal_Gland",
+     "tissue_uberon": "UBERON:0002369",
+     "median_tpm": 13.5,
+     "unit": "TPM",
+     "_url": "https://gtexportal.org/api/v2/expression/medianGeneExpression?gencodeId=ENSG00000141510.16&datasetId=gtex_v8&itemsPerPage=100",
+     "_retrieved_at": "2026-08-04 08:48:24.919138+00:00"
+    },
+    "... 51 more records omitted"
+   ],
+   "name": "GTEx Portal",
+   "family": "expression_cohorts"
+  },
+  "geo": {
+   "status": "OK",
+   "detail": "2 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "geo",
+   "id_fields_found": [
+    "accession",
+    "dataset_id"
+   ],
+   "record_count": 2,
+   "seconds": 1.4,
+   "payload": [
+    {
+     "dataset_id": "GEO:GSE319384",
+     "accession": "GSE319384",
+     "title": "Metabolic Plasticity Underlies Ferroptosis Resistance Driven by Mutant p53 in Pancreatic Ductal Adenocarcinoma",
+     "summary": "Pancreatic ductal adenocarcinoma (PDAC) is an aggressive malignancy characterized by late diagnosis, rapid progression, and resistance to conventional therapies. Mutations in the tumor suppressor gene TP53 are prevalent in this cancer and have been associated with gain-of-function activities that promote tumor survival. Ferroptosis, an iron-dependent form of regulated cell death driven by lipid pe... [2544 chars]",
+     "entry_type": "GSE",
+     "gds_type": "Expression profiling by high throughput sequencing",
+     "taxon": "Homo sapiens",
+     "sample_count": 24,
+     "platform_ids": [
+      "GPL30173"
+     ],
+     "pubmed_ids": [],
+     "published_at": "2026/07/31",
+     "source_db": "geo",
+     "_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=gds&id=200319384%2C200308646&retmode=json",
+     "_retrieved_at": "2026-08-04 08:48:26.320606+00:00"
+    },
+    {
+     "dataset_id": "GEO:GSE308646",
+     "accession": "GSE308646",
+     "title": "Combined Targeting of de novo Pyrimidine Synthesis and ATR Promotes ATF4-Mediated Cell Death in TP53-Deficient ALL",
+     "summary": "Mutations or deletions affecting the TP53 gene predict a dismal outcome in relapsed acute lymphoblastic leukemia (ALL), with limited curative treatment options available. Due to their highly proliferative state, ALL cells are strongly dependent on nucleotide synthesis. Inhibitors of dihydroorotate dehydrogenase (DHODH), a pivotal enzyme in de novo pyrimidine biosynthesis, have demonstrated promisi... [1311 chars]",
+     "entry_type": "GSE",
+     "gds_type": "Expression profiling by high throughput sequencing",
+     "taxon": "Homo sapiens",
+     "sample_count": 24,
+     "platform_ids": [
+      "GPL34284"
+     ],
+     "pubmed_ids": [
+      "42519367"
+     ],
+     "published_at": "2026/07/29",
+     "source_db": "geo",
+     "_url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=gds&id=200319384%2C200308646&retmode=json",
+     "_retrieved_at": "2026-08-04 08:48:26.320606+00:00"
+    }
+   ],
+   "name": "GEO",
+   "family": "expression_cohorts"
+  },
+  "arrayexpress": {
+   "status": "OK",
+   "detail": "3 record(s)",
+   "failed_requests": 0,
+   "gate": "open",
+   "expected_prefix": "arrayexpress",
+   "id_fields_found": [
+    "accession",
+    "dataset_id"
+   ],
+   "record_count": 3,
+   "seconds": 0.87,
+   "payload": [
+    {
+     "dataset_id": "ARRAYEXPRESS:E-GEOD-71177",
+     "accession": "E-GEOD-71177",
+     "title": "Genome-wide analysis of p53 transcriptional programs in B cells upon exposure to genotoxic stress in vivo [DNAse-Seq]",
+     "author": "Marco Morelli",
+     "release_date": "2015-08-24",
+     "file_count": 3,
+     "source_db": "arrayexpress",
+     "_url": "https://www.ebi.ac.uk/biostudies/api/v1/search?query=TP53&pageSize=3&collection=arrayexpress",
+     "_retrieved_at": "2026-08-04 08:48:27.190943+00:00"
+    },
+    {
+     "dataset_id": "ARRAYEXPRESS:E-GEOD-5447",
+     "accession": "E-GEOD-5447",
+     "title": "Transcription profiling of DeltaNp73 alpha expressing C2C12 myoblasts examined 6 and 24 hours after shifting the cells to a differentiation medium to study the functions of the individual members of P53 family.",
+     "author": "Christof Burek",
+     "release_date": "2007-11-22",
+     "file_count": 2,
+     "source_db": "arrayexpress",
+     "_url": "https://www.ebi.ac.uk/biostudies/api/v1/search?query=TP53&pageSize=3&collection=arrayexpress",
+     "_retrieved_at": "2026-08-04 08:48:27.190943+00:00"
+    },
+    {
+     "dataset_id": "ARRAYEXPRESS:E-GEOD-68368",
+     "accession": "E-GEOD-68368",
+     "title": "Expression analyses of E12.5 embryonic brains from Nestin Cre+, Rest GTi/GTi, p53 fl/fl vs Rest GTi/GTi, p53 fl/fl littermates",
+     "author": "Tamilla Nechiporuk James McGann Karin Mullendorff Thomas Floss Wolfgang Wurst Gail Mandel",
+     "release_date": "2015-08-01",
+     "file_count": 8,
+     "source_db": "arrayexpress",
+     "_url": "https://www.ebi.ac.uk/biostudies/api/v1/search?query=TP53&pageSize=3&collection=arrayexpress",
+     "_retrieved_at": "2026-08-04 08:48:27.190943+00:00"
+    }
+   ],
+   "name": "ArrayExpress",
+   "family": "expression_cohorts"
+  },
+  "uk_biobank": {
+   "status": "SKIP",
+   "detail": "controlled access -- metadata client only, not probed",
+   "gate": "controlled",
+   "failed_requests": 0,
+   "expected_prefix": "ukb",
+   "record_count": 0,
+   "seconds": 0.0,
+   "payload": null,
+   "name": "UK Biobank",
+   "family": "expression_cohorts"
+  },
+  "dbgap": {
+   "status": "SKIP",
+   "detail": "controlled access -- metadata client only, not probed",
+   "gate": "controlled",
+   "failed_requests": 0,
+   "expected_prefix": "dbgap",
+   "record_count": 0,
+   "seconds": 0.0,
+   "payload": null,
+   "name": "dbGaP",
+   "family": "expression_cohorts"
+  }
+ }
+}
