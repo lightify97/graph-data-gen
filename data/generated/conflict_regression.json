@@ -1,0 +1,11 @@
+{
+ "schema": "ontology.yaml",
+ "retired_rows_checked": 31,
+ "graph_totals": {
+  "nodes": 53375,
+  "rels": 233845,
+  "types": 72
+ },
+ "problems": [],
+ "passed": true
+}

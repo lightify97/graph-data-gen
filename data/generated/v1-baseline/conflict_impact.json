@@ -1,0 +1,135 @@
+{
+ "projections": {
+  "as_documented": {
+   "name": "as_documented",
+   "nodes": 43597,
+   "rels": 232217
+  },
+  "canonical": {
+   "name": "canonical",
+   "nodes": 43494,
+   "rels": 195767
+  }
+ },
+ "retired_relationship_counts": {
+  "OCCURS_IN": 6253,
+  "CAUSES": 5589,
+  "TREATS_INDICATION": 4618,
+  "EXPRESSES": 3413,
+  "REGULATED_BY_QTL": 3032,
+  "CAUSALLY_DRIVES": 2526,
+  "PART_OF": 2368,
+  "INVOLVES": 1263,
+  "SERVES_AS_BIOMARKER_FOR": 1184,
+  "DRIVES_PATHOLOGY": 1184,
+  "PRECEDES": 947,
+  "RESULTS_IN": 947,
+  "PRODUCES_OUTCOME": 947,
+  "STANDARDIZES_DISEASE": 797,
+  "AMELIORATES": 552,
+  "EVOLUTIONARILY_CONSERVED_IN": 473,
+  "CONTEXTUALIZES": 119,
+  "EXHIBITS_PATHOLOGY_OF": 119,
+  "ACCUMULATES": 119
+ },
+ "edges_removed": 36450,
+ "edges_removed_pct": 15.7,
+ "nodes_compared": 43494,
+ "role_changes": 45,
+ "role_change_pct": 0.1,
+ "mean_influence_delta": 0.00304,
+ "max_influence_delta": 0.37329,
+ "top50_ranking_churn": 38,
+ "worst_affected": [
+  {
+   "uid": "SkygenicHypothesis:SKYGEN.HYP:00008",
+   "delta": 0.37329,
+   "role_as_documented": "Peripheral Node",
+   "role_canonical": "Structural Bottleneck"
+  },
+  {
+   "uid": "SkygenicHypothesis:SKYGEN.HYP:00018",
+   "delta": 0.35374,
+   "role_as_documented": "Peripheral Node",
+   "role_canonical": "Structural Bottleneck"
+  },
+  {
+   "uid": "Tissue:UBERON:0001496",
+   "delta": 0.34209,
+   "role_as_documented": "Structural Bottleneck",
+   "role_canonical": "Peripheral Node"
+  },
+  {
+   "uid": "SkygenicHypothesis:SKYGEN.HYP:00025",
+   "delta": 0.34203,
+   "role_as_documented": "Peripheral Node",
+   "role_canonical": "Structural Bottleneck"
+  },
+  {
+   "uid": "Tissue:UBERON:0002106",
+   "delta": 0.32904,
+   "role_as_documented": "Structural Bottleneck",
+   "role_canonical": "Peripheral Node"
+  },
+  {
+   "uid": "SkygenicHypothesis:SKYGEN.HYP:00014",
+   "delta": 0.32233,
+   "role_as_documented": "Peripheral Node",
+   "role_canonical": "Structural Bottleneck"
+  },
+  {
+   "uid": "SkygenicHypothesis:SKYGEN.HYP:00040",
+   "delta": 0.31786,
+   "role_as_documented": "Peripheral Node",
+   "role_canonical": "Structural Bottleneck"
+  },
+  {
+   "uid": "SkygenicHypothesis:SKYGEN.HYP:00000",
+   "delta": 0.31266,
+   "role_as_documented": "Peripheral Node",
+   "role_canonical": "Structural Bottleneck"
+  },
+  {
+   "uid": "Tissue:UBERON:0000948",
+   "delta": 0.30214,
+   "role_as_documented": "Peripheral Node",
+   "role_canonical": "Structural Bottleneck"
+  },
+  {
+   "uid": "Species:10090",
+   "delta": 0.3,
+   "role_as_documented": "Peripheral Node",
+   "role_canonical": "Locally Influential"
+  },
+  {
+   "uid": "SkygenicHypothesis:SKYGEN.HYP:00037",
+   "delta": 0.28,
+   "role_as_documented": "Peripheral Node",
+   "role_canonical": "Structural Bottleneck"
+  },
+  {
+   "uid": "SkygenicHypothesis:SKYGEN.HYP:00041",
+   "delta": 0.27352,
+   "role_as_documented": "Peripheral Node",
+   "role_canonical": "Structural Bottleneck"
+  },
+  {
+   "uid": "Species:9606",
+   "delta": 0.26841,
+   "role_as_documented": "Peripheral Node",
+   "role_canonical": "Locally Influential"
+  },
+  {
+   "uid": "Tissue:UBERON:0002037",
+   "delta": 0.2649,
+   "role_as_documented": "Structural Bottleneck",
+   "role_canonical": "Peripheral Node"
+  },
+  {
+   "uid": "SkygenicHypothesis:SKYGEN.HYP:00007",
+   "delta": 0.25971,
+   "role_as_documented": "Peripheral Node",
+   "role_canonical": "Structural Bottleneck"
+  }
+ ]
+}

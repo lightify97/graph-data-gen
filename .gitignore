@@ -6,18 +6,25 @@ __pycache__/
 *.egg-info/
 
 # Raw cached API responses. Large, and fully regenerable by
-# `python -m app.services.ingestion.fetch_all` — the cache is for speed and
+# `python -m skygenic_scans.sources.fetch_all` — the cache is for speed and
 # reproducibility within a working copy, not something to commit.
 data/seeds/*/
 !data/seeds/.gitkeep
 
 # The normalised bundle IS worth keeping: it pins exactly which upstream records
-# were pulled, and regenerating it hits 15 public APIs.
+# the graph was built from, and regenerating it hits 15 public APIs.
 !data/seeds/seed_bundle.json
 
-# Live client health report — regenerable by `python -m app.services.ingestion.check_clients`
-# against endpoints that change independently of this repo.
-data/generated/source_client_report.json
+# Generated graph. Rebuildable from the seed bundle with a fixed random seed.
+data/generated/nodes.jsonl
+data/generated/edges.jsonl
+
+# Reports are small and worth keeping under version control — they are the
+# actual findings.
+!data/generated/manifest.json
+!data/generated/scan_readiness.json
+!data/generated/conflict_impact.json
+!data/generated/gap_impact.json
 
 .DS_Store
 .env
